@@ -6,18 +6,19 @@
 #    By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 13:40:37 by ladawi            #+#    #+#              #
-#    Updated: 2022/05/30 14:03:34 by ladawi           ###   ########.fr        #
+#    Updated: 2022/05/30 16:12:43 by ladawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_containers
 CC = c++
 HEAD = -Iincludes
-CFLAGS = -Wall -Wextra -Werror $(DEBUG)
+# CFLAGS = -Wall -Wextra -Werror $(DEBUG)
 # DEBUG = -g3
 
 
 FILES = main.cpp \
+		Vector.cpp \
 
 
 SRC_PATH = $(shell find srcs -type d)
@@ -37,7 +38,7 @@ BOLD = \033[1m
 
 all : $(NAME)
 
-$(NAME) : $(OBJ_PATH) $(OBJ) ./includes/test.hpp
+$(NAME) : $(OBJ_PATH) $(OBJ) ./includes/.
 	@echo "$(YEL)Made $(NAME)$(END)"
 	@echo "$(PUR)Compiling$(END)"
 	@$(CC) $(CFLAGS) $(HEAD) $(OBJ) -o ${NAME}
@@ -58,6 +59,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
+	@rm -rf $(OBJ_PATH)
 	@echo "$(RED)$(BOLD)Removed $(NAME) $(END)"
 
 re: fclean all
