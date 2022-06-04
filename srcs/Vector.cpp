@@ -1,48 +1,47 @@
 #include "Vector.hpp"
-
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-Vector::Vector() : _size(0), _array(NULL)
-{
-	std::cout << "Default vector constructor\n";
-}
+// Vector::Vector() : _size(0), _array(NULL)
+// {
+// 	std::cout << "Default vector constructor\n";
+// }
 
-Vector::Vector( const Vector & src )
-{
-}
+// Vector::Vector( const Vector & src )
+// {
+// }
 
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-Vector::~Vector()
-{
-	std::cout << "Default vector destructor" << std::endl;
-	delete [] _array;
-}
+// Vector::~Vector()
+// {
+// 	std::cout << "Default vector destructor" << std::endl;
+// 	delete [] _array;
+// }
 
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-Vector &				Vector::operator=( Vector const & rhs )
-{
-	//if ( this != &rhs )
-	//{
-		//this->_value = rhs.getValue();
-	//}
-	return *this;
-}
+// Vector &				Vector::operator=( Vector const & rhs )
+// {
+// 	//if ( this != &rhs )
+// 	//{
+// 		//this->_value = rhs.getValue();
+// 	//}
+// 	return *this;
+// }
 
-std::ostream &			operator<<( std::ostream & o, Vector const & i )
-{
-	//o << "Value = " << i.getValue();
-	return o;
-}
+// std::ostream &			operator<<( std::ostream & o, Vector const & i )
+// {
+// 	//o << "Value = " << i.getValue();
+// 	return o;
+// }
 
 
 /*
@@ -54,7 +53,9 @@ std::ostream &			operator<<( std::ostream & o, Vector const & i )
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-unsigned int			Vector::size(void) const
+
+template<typename T>
+unsigned int			Vector< T >::size(void) const
 {
 	return(this->_size);
 }

@@ -6,7 +6,7 @@
 #    By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 13:40:37 by ladawi            #+#    #+#              #
-#    Updated: 2022/05/30 16:12:43 by ladawi           ###   ########.fr        #
+#    Updated: 2022/06/04 12:51:37 by ladawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ BOLD = \033[1m
 
 all : $(NAME)
 
-$(NAME) : $(OBJ_PATH) $(OBJ) ./includes/.
+$(NAME) : $(OBJ_PATH) $(OBJ) $(INCLUDES)
 	@echo "$(YEL)Made $(NAME)$(END)"
 	@echo "$(PUR)Compiling$(END)"
 	@$(CC) $(CFLAGS) $(HEAD) $(OBJ) -o ${NAME}
