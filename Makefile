@@ -6,13 +6,12 @@
 #    By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 13:40:37 by ladawi            #+#    #+#              #
-#    Updated: 2022/06/04 12:51:37 by ladawi           ###   ########.fr        #
+#    Updated: 2022/06/04 14:50:37 by ladawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = ft_containers
+NAME = a.out
 CC = c++
-HEAD = -Iincludes
 # CFLAGS = -Wall -Wextra -Werror $(DEBUG)
 # DEBUG = -g3
 
@@ -27,6 +26,13 @@ vpath %.cpp $(foreach dir, $(SRC_PATH), $(dir))
 OBJ_PATH = objs
 OBJ = $(addprefix $(OBJ_PATH)/, $(FILES:%.cpp=%.o))
 
+INC_F = Vector.hpp
+INC_DIR = includes
+INC = $(addprefix $(INC_DIR)/, $(INC_F))
+INCLUDES = $(INC)
+
+INC_FLAGS = -I $(INC_DIR)
+
 END = \033[0m
 RED = \033[0;91m
 YEL = \033[93m
@@ -38,16 +44,16 @@ BOLD = \033[1m
 
 all : $(NAME)
 
-$(NAME) : $(OBJ_PATH) $(OBJ) $(INCLUDES)
+$(NAME) : $(OBJ_PATH) $(INC) $(OBJ)
 	@echo "$(YEL)Made $(NAME)$(END)"
 	@echo "$(PUR)Compiling$(END)"
-	@$(CC) $(CFLAGS) $(HEAD) $(OBJ) -o ${NAME}
+	@$(CC) $(CFLAGS) $(INC_FLAGS) $(OBJ) -o ${NAME}
 
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 
-$(OBJ_PATH)/%.o : %.cpp
-	@$(CC) $(CFLAGS) $(HEAD) -c $< -o $@
+$(OBJ_PATH)/%.o : %.cpp $(INCLUDES)
+	@$(CC) $(CFLAGS) $(HEAD) -c -o $@ $(INC_FLAGS) $<
 	@echo "$(GRE)$@$(END)"
 
 print:

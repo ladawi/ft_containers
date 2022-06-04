@@ -55,7 +55,7 @@
 
 
 template<typename T>
-unsigned int			Vector< T >::size(void) const
+size_t			Vector< T >::size(void) const
 {
 	return(this->_size);
 }
