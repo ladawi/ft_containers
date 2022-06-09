@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/04 13:06:09 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/09 18:27:10 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,23 @@ int	main()
 	// 	std::cout << "V1bis = " << w << " ." << std::endl;
 	std::cout << std::endl << "===========================" << std::endl << std::endl;
 	
-	std::vector<int> first;                                // empty vector of ints
-	std::vector<int> second (4,100);                       // four ints with value 100
-	Vector<int> third (second.begin(),second.end());
-	for (int i = 0; i < 4; i++)
+	ft::vector<int> first;                                // empty vector of ints
+	// std::vector<int> second (4,100);                       // four ints with value 100
+	// ft::vector<int> third (second.begin(),second.end());
+	// for (int i = 0; i < 4; i++)
+	// {
+	// 	std::cout << third[i] << std::endl;
+	// }
+
+	first.push_back(99);
+	first.push_back(34);
+	first.push_back(1);
+	first.push_back(123);
+	first.push_back(42);
+
+	for (auto& i : first)
 	{
-		std::cout << third[i] << std::endl;
+		std::cout << "issou = " << i << std::endl;
 	}
 	return (0);
 }

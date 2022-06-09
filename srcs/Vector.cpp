@@ -54,10 +54,5 @@
 */
 
 
-template<typename T>
-size_t			Vector< T >::size(void) const
-{
-	return(this->_size);
-}
 
 /* ************************************************************************** */
