@@ -1,84 +1,34 @@
-#ifndef vector_HPP
-# define vector_HPP
+#ifndef VECTOR_HPP
+# define VECTOR_HPP
 
 # include <iostream>
 # include <string>
+# include "VectorIterators.hpp"
+# include "ConstVectorIterators.hpp"
+
+# include <cmath>
 
 namespace ft {
-	template<typename Vector>
-	class vectorIterator {
 
-		public:
-			using value_type = typename Vector::value_type;
-			using pointer_type = value_type*;
-			using reference_type = value_type&;
 
-		public:
-		
-			vectorIterator(pointer_type ptr) : _ptr(ptr) {};
-
-			vectorIterator& operator++() {
-				_ptr++;
-				return (*this);
-			}
-			vectorIterator operator++(int) {
-				vectorIterator iterator = *this;
-				++(*this);
-				return (iterator);
-			}
-
-			vectorIterator& operator--() {
-				_ptr--;
-				return (*this);
-			}
-			vectorIterator operator--(int) {
-				vectorIterator iterator = *this;
-				--(*this);
-				return (iterator);
-			}
-
-			reference_type operator[](size_t index) {
-				return *(_ptr + index);
-			}
-
-			pointer_type operator->() {
-				return (_ptr);
-			}
-
-			reference_type operator*() {
-				return (*_ptr);
-			}
-
-			bool operator==(const vectorIterator& rhs) const {
-				return (_ptr == rhs._ptr);
-			}
-
-			bool operator!=(const vectorIterator& rhs) const {
-				return !(*this == rhs);
-			}
-
-		private:
-			pointer_type _ptr;
-
-	};
-
-	template<typename T, class Allocator = std::allocator<T> >
+	template<class T, class Allocator = std::allocator<T> >
 	class	vector
 	{
 
 		public:
-			using value_type = T;
-			using Iterator = vectorIterator<vector<T>>;
+			typedef size_t size_type;
+			typedef T value_type;
+			typedef vectorIterator<T> iterator;
+			typedef const_vectorIterator<T> const_iterator;
+
+			// typedef vectorReverseIterator<vector<T>> RevIterator;
 	/*
 		=========================== Member functions ===========================
 	*/
 		public:
-			vector< T >() : _size(0), _capacity(0), _array(NULL) { 
-				std::cout << "vector constructor\n";
-			};
+			vector< T >() : _size(0), _capacity(0), _array(NULL) {};
 
 			vector< T >(size_t n, const T& val = T()) : _size(n), _capacity(n), _array(new T[n]) {
-				std::cout << "vector fill constructor\n";
 				for (size_t i = 0; i < n; i++)
 				{
 					_array[i] = val;
@@ -87,7 +37,6 @@ namespace ft {
 			};
 
 			vector< T >( vector const &rhs ) : _size(rhs.size()), _capacity(rhs.capacity()), _array(new T[_capacity]) {
-				std::cout << "vector copy constructor\n";
 				for (size_t i = 0; i < rhs.size(); i++)
 				{
 					_array[i] = rhs._array[i];
@@ -96,14 +45,12 @@ namespace ft {
 			};
 
 			~vector< T >() {
-				std::cout << "vector destructor" << std::endl;
 				delete [] _array;
 			};
 
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last) : _size(0) {
-				std::cout << "vector range constructor\n";
-				size_t	i = 0;
+				size_type	i = 0;
 				InputIterator tmp = first;
 				while (first != last)
 				{
@@ -115,7 +62,7 @@ namespace ft {
 				_array = new T[_capacity];
 				while (first != last)
 				{
-					_array[_size++] = *first; 
+					_array[_size++] = *first;
 					first++;
 				}
 			}
@@ -139,13 +86,21 @@ namespace ft {
 		=============================== Iterator ===============================
 	*/
 
-			Iterator	begin() {
-				return (Iterator (_array));
-			}
+			iterator	begin() { return (iterator (_array)); }
 
-			Iterator	end() {
-				return (Iterator (_array + _size));
-			}
+			iterator	end() { return (iterator (_array + _size)); }
+
+			const_iterator	begin() const { return (const_iterator(_array)); }
+
+			const_iterator	end() const { return (const_iterator(_array + _size)); }
+
+			// iterator	begin() {
+			// 	return (iterator (_array));
+			// }
+
+			// iterator	end() {
+			// 	return (iterator (_array + _size));
+			// }
 
 	/*
 		=============================== Capacity ===============================
@@ -153,7 +108,42 @@ namespace ft {
 
 			size_t	size(void) const {
 				return(_size);
-			};
+			}
+
+			void	resize(size_type n, value_type val = value_type()) {
+				if (_size > n)
+				{
+					while (_size > n)
+					{
+						pop_back();
+					}
+				}
+				else
+				{
+					while (_size < n)
+						push_back(val);
+				}
+			}
+
+			void	reserve (size_type n) {
+				if (n > _capacity)
+				{
+					_capacity = n + 5; // size of the realloc, change it mb ?
+					T *newarray = new T[_capacity];
+					for (size_t i = 0; i < _size; i++)
+					{
+						newarray[i] = _array[i];
+					}
+					// newarray[_size] = val;
+					// ++_size;
+					delete[] _array;
+					_array = newarray;
+				}
+			}
+
+			size_type	max_size() const {
+				return (pow(2, 32)/sizeof(value_type) - 1);
+			}
 
 			bool	empty() const {
 				return(_size == 0);
@@ -190,7 +180,6 @@ namespace ft {
 		=============================== Modifiers ==============================
 	*/
 		void	push_back(const T& val) {
-			//TODO : what if full ?
 			if (_size < _capacity)
 			{
 				_array[_size] = val;
@@ -198,7 +187,7 @@ namespace ft {
 			}
 			else
 			{
-				_capacity *= 2; // size of the realloc, change it mb ?
+				_capacity *= 2;
 				T* newarray = new T[_capacity];
 				for (size_t i = 0; i < _size; i++)
 				{
@@ -217,9 +206,30 @@ namespace ft {
 				_size--;
 		}
 
-	/*
-		================================ Except ================================
-	*/
+		iterator insert(iterator position, const value_type &val) {
+			if (_size < _capacity)
+			{
+				
+				_size++;
+			}
+			else
+			{
+				_capacity *= 2;
+				T *newarray = new T[_capacity];
+				for (size_t i = 0; i < _size; i++)
+				{
+					newarray[i] = _array[i];
+				}
+				newarray[_size] = val;
+				++_size;
+				delete[] _array;
+				_array = newarray;
+			}
+		}
+
+		/*
+			================================ Except ================================
+		*/
 
 		class OOBindex : public std::out_of_range
 		{
@@ -261,6 +271,7 @@ namespace ft {
 			T*			_array;
 
 	};
+
 }
 
 #endif /* ********************************************************** vector_H */
