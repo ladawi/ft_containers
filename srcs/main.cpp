@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/14 21:13:42 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/21 11:16:23 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,37 @@ int	main()
 	ft::vector<int> first;                                // empty vector of ints
 	std::vector<int> second (4,100);                       // four ints with value 100
 	ft::vector<int> third (second.begin(),second.end());
-	for (int i = 0; i < 4; i++)
-	{
-		std::cout << third[i] << std::endl;
-	}
+	// for (int i = 0; i < 4; i++)
+	// {
+	// 	std::cout << third[i] << std::endl;
+	// }
 
 	first.push_back(99);
 	first.push_back(34);
 	first.push_back(1);
 	first.push_back(123);
 	first.push_back(42);
+	first.push_back(41);
+	first.reserve(17);
+	// first.push_back(43);
+	// first.push_back(44);
+	
+	std::cout << "non." << std::endl;
+	auto i = first.end();
+	int count = 0;
+	for (auto z = first.begin(); z != i; z++)
+	{
+		std::cout << "issou = " << *z << std::endl; 
+		if (count == 3)
+			first.insert(z ,420);
+		count++;
+	}
+	std::cout << "non." << std::endl;
 
 	for (auto& i : first)
 	{
-		std::cout << "issou = " << i << std::endl;
+		std::cout << "__ : " << i << std::endl;
 	}
+
 	return (0);
 }

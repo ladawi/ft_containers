@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:03:37 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/14 19:27:24 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/21 10:24:50 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,22 @@ namespace ft {
 		vectorIterator(pointer_type x) : RandomAccessIterator<T>(x) {};
 		~vectorIterator() {};
 
+		vectorIterator &operator+=(difference_type n);
+		vectorIterator &operator-=(difference_type n);
 	};
+
+	template <class T>
+	vectorIterator<T> &vectorIterator<T>::operator+=(vectorIterator<T>::difference_type n)
+	{
+		this->_ptr += n;
+		return *this;
+	}
+
+	template <class T>
+	vectorIterator<T> &vectorIterator<T>::operator-=(vectorIterator<T>::difference_type n)
+	{
+		this->_ptr -= n;
+		return *this;
+	}
 }
 #endif

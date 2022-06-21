@@ -6,26 +6,29 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 17:24:20 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/14 19:27:19 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/21 10:56:26 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RANDOM_ACCESS_ITERATOR_HPP
 # define RANDOM_ACCESS_ITERATOR_HPP
 
+# include "Ft_iterators.hpp"
+
 namespace ft {
 template<class T>
 	class RandomAccessIterator {
 
 		public:
-			typedef T value_type;
-			typedef T* pointer_type;
-			typedef T& reference_type;
+			typedef T value;
+			typedef T* pointer;
+			typedef T& reference;
 			typedef std::ptrdiff_t difference_type;
+			typedef ft::random_access_iterator_tag iterator_category;
 
 		public:
 			RandomAccessIterator() : _ptr(NULL) {};
-			RandomAccessIterator(pointer_type x) : _ptr(x) {};
+			RandomAccessIterator(pointer x) : _ptr(x) {};
 			RandomAccessIterator(const RandomAccessIterator &x) { *this = x; };
 			~RandomAccessIterator() {};
 
@@ -53,11 +56,11 @@ template<class T>
 				return (_ptr <= rhs._ptr);
 			}
 
-			reference_type	operator*() {
+			reference	operator*() {
 				return (*_ptr);
 			}
 
-			pointer_type	operator->() {
+			pointer	operator->() {
 				return (_ptr);
 			}
 
@@ -81,25 +84,25 @@ template<class T>
 				return (iterator);
 			}
 
-			reference_type	operator[](size_t index) {
+			reference	operator[](size_t index) {
 				return *(_ptr + index);
 			}
 
 			difference_type	operator-(const RandomAccessIterator &rhs) const {
-				return (_ptr - rhs->_ptr);
+				return (_ptr - rhs._ptr);
 			}
 
-			RandomAccessIterator<value_type>	operator+(difference_type n) const {
+			RandomAccessIterator<value>	operator+(difference_type n) const {
 				return (random_access_iterator(_ptr + n));
 			}
 
-			RandomAccessIterator<value_type>	operator-(difference_type n) const {
+			RandomAccessIterator<value>	operator-(difference_type n) const {
 				return (random_access_iterator(_ptr - n));
 			}
 
 
 		protected:
-			pointer_type _ptr;
+			pointer _ptr;
 
 	};
 }

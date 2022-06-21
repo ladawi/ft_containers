@@ -5,6 +5,7 @@
 # include <string>
 # include "VectorIterators.hpp"
 # include "ConstVectorIterators.hpp"
+# include "Ft_iterators.hpp"
 
 # include <cmath>
 
@@ -16,11 +17,11 @@ namespace ft {
 	{
 
 		public:
-			typedef size_t size_type;
-			typedef T value_type;
-			typedef vectorIterator<T> iterator;
-			typedef const_vectorIterator<T> const_iterator;
-
+			typedef size_t						size_type;
+			typedef T							value_type;
+			typedef vectorIterator<T>			iterator;
+			typedef const_vectorIterator<T>		const_iterator;
+			typedef std::ptrdiff_t				difference_type;
 			// typedef vectorReverseIterator<vector<T>> RevIterator;
 	/*
 		=========================== Member functions ===========================
@@ -32,7 +33,6 @@ namespace ft {
 				for (size_t i = 0; i < n; i++)
 				{
 					_array[i] = val;
-				
 				}
 			};
 
@@ -180,24 +180,7 @@ namespace ft {
 		=============================== Modifiers ==============================
 	*/
 		void	push_back(const T& val) {
-			if (_size < _capacity)
-			{
-				_array[_size] = val;
-				_size++;
-			}
-			else
-			{
-				_capacity *= 2;
-				T* newarray = new T[_capacity];
-				for (size_t i = 0; i < _size; i++)
-				{
-					newarray[i] = _array[i];
-				}
-				newarray[_size] = val;
-				++_size;
-				delete [] _array;
-				_array = newarray;
-			}
+			this->insert(this->end(), 1, val);
 		};
 
 		void	pop_back()
@@ -207,23 +190,33 @@ namespace ft {
 		}
 
 		iterator insert(iterator position, const value_type &val) {
+			// iterator i = this->beg;
+			this->insert(position, 1, val);
+			return (this->begin());
+		}
+
+		void insert(iterator position, size_type n, const value_type &val) {
+			if (_size + n < _capacity)
+				this->reserve(_size + n);
+			_size += n;
+			iterator it = this->end();
 			if (_size < _capacity)
 			{
-				
-				_size++;
+				for(size_type i = 0; i < n; i++) {
+					for (iterator w = this->end(); w >= position; w--)
+						*w = *(ft::prev(w));
+				}
+				while (it != position)
+					it--;
+				for (size_type i = 0; i < n ; i++) {
+					*it = val;
+					it++;
+				}
 			}
 			else
 			{
-				_capacity *= 2;
-				T *newarray = new T[_capacity];
-				for (size_t i = 0; i < _size; i++)
-				{
-					newarray[i] = _array[i];
-				}
-				newarray[_size] = val;
-				++_size;
-				delete[] _array;
-				_array = newarray;
+				this->reserve(_capacity * 2);
+				this->insert(position, n, val);
 			}
 		}
 

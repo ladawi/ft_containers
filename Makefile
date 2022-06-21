@@ -6,7 +6,7 @@
 #    By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 13:40:37 by ladawi            #+#    #+#              #
-#    Updated: 2022/06/14 19:51:31 by ladawi           ###   ########.fr        #
+#    Updated: 2022/06/21 11:17:21 by ladawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ vpath %.cpp $(foreach dir, $(SRC_PATH), $(dir))
 OBJ_PATH = objs
 OBJ = $(addprefix $(OBJ_PATH)/, $(FILES:%.cpp=%.o))
 
-INC_F = Vector.hpp VectorIterators.hpp RandomAccessIterator.hpp ConstVectorIterators.hpp
+INC_F = Vector.hpp VectorIterators.hpp RandomAccessIterator.hpp ConstVectorIterators.hpp Ft_iterators.hpp
 INC_DIR = includes
 INC = $(addprefix $(INC_DIR)/, $(INC_F))
 INCLUDES = $(INC)
