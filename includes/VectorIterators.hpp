@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:03:37 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/21 10:24:50 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/22 11:35:49 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ namespace ft {
 
 		vectorIterator &operator+=(difference_type n);
 		vectorIterator &operator-=(difference_type n);
+		
 	};
 
 	template <class T>

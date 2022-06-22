@@ -86,13 +86,13 @@ namespace ft {
 		=============================== Iterator ===============================
 	*/
 
-			iterator	begin() { return (iterator (_array)); }
+			iterator	begin() { return (_array); }
 
-			iterator	end() { return (iterator (_array + _size)); }
+			iterator	end() { return (_array + _size); }
 
-			const_iterator	begin() const { return (const_iterator(_array)); }
+			const_iterator	begin() const { return (_array); }
 
-			const_iterator	end() const { return (const_iterator(_array + _size)); }
+			const_iterator	end() const { return (_array + _size); }
 
 			// iterator	begin() {
 			// 	return (iterator (_array));
@@ -128,9 +128,9 @@ namespace ft {
 			void	reserve (size_type n) {
 				if (n > _capacity)
 				{
-					_capacity = n + 5; // size of the realloc, change it mb ?
-					T *newarray = new T[_capacity];
-					for (size_t i = 0; i < _size; i++)
+					T *newarray = new T[n];
+					// std::cout << "Reserve called : " << _size << " capa = " << _array[0] << std::endl;
+					for (size_type i = 0; i < _size; i++)
 					{
 						newarray[i] = _array[i];
 					}
@@ -138,6 +138,7 @@ namespace ft {
 					// ++_size;
 					delete[] _array;
 					_array = newarray;
+					_capacity = n; // size of the realloc, change it mb ?
 				}
 			}
 
@@ -179,8 +180,9 @@ namespace ft {
 	/*
 		=============================== Modifiers ==============================
 	*/
-		void	push_back(const T& val) {
-			this->insert(this->end(), 1, val);
+		void	push_back(const value_type &val) {
+			this->insert(this->end(), val);
+			// T issou = val;
 		};
 
 		void	pop_back()
@@ -190,34 +192,57 @@ namespace ft {
 		}
 
 		iterator insert(iterator position, const value_type &val) {
-			// iterator i = this->beg;
 			this->insert(position, 1, val);
 			return (this->begin());
 		}
 
-		void insert(iterator position, size_type n, const value_type &val) {
-			if (_size + n < _capacity)
-				this->reserve(_size + n);
+		void insert(iterator position, size_type n, const value_type &val)
+		{
+			size_type delta = position - this->begin();
+
+			if (this->_capacity < this->_size + n)
+			{
+				if (this->_capacity * 2 < this->_size + n)
+					this->reserve(this->_size + n);
+				else
+					this->reserve(this->_capacity * 2 + !this->_capacity);
+			}
+			position = this->begin();
+			for (size_type i = 0; i < delta; i++)
+				position++;
 			_size += n;
-			iterator it = this->end();
-			if (_size < _capacity)
+			for (iterator it = ft::prev(this->end()); it != ft::next(position, n - 1); --it)
+				*it = *ft::prev(it, n);
+			for (iterator it = position; it != position + n; ++it)
+				*it = val;
+		}
+
+		template <class InputIterator>
+		void insert (iterator position, InputIterator first, InputIterator last) {
+			std::cout << "Iterator Insert called\n";
+			size_type delta = position - this->begin();
+			size_type n;
+
+			for (auto it = first; it != last; it++)
 			{
-				for(size_type i = 0; i < n; i++) {
-					for (iterator w = this->end(); w >= position; w--)
-						*w = *(ft::prev(w));
-				}
-				while (it != position)
-					it--;
-				for (size_type i = 0; i < n ; i++) {
-					*it = val;
-					it++;
-				}
+				n++;
 			}
-			else
+
+			if (this->_capacity < this->_size + n)
 			{
-				this->reserve(_capacity * 2);
-				this->insert(position, n, val);
+				if (this->_capacity * 2 < this->_size + n)
+					this->reserve(this->_size + n);
+				else
+					this->reserve(this->_capacity * 2 + !this->_capacity);
 			}
+			position = this->begin();
+			for (size_type i = 0; i < delta; i++)
+				position++;
+			_size += n;
+			for (iterator it = ft::prev(this->end()); it != ft::next(position, n - 1); --it)
+				*it = *ft::prev(it, n);
+			// for (iterator it = position; it != position + n; ++it)
+			// 	*it = val;
 		}
 
 		/*

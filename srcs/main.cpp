@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/21 11:16:23 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/22 11:40:49 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	main()
 	// {
 	// 	std::cout << third[i] << std::endl;
 	// }
-
+	// first.reserve(42);
+	std::cout << "reserve done\n";
 	first.push_back(99);
 	first.push_back(34);
 	first.push_back(1);
@@ -73,7 +74,7 @@ int	main()
 	int count = 0;
 	for (auto z = first.begin(); z != i; z++)
 	{
-		std::cout << "issou = " << *z << std::endl; 
+		std::cout << "issou = " << *z << std::endl;
 		if (count == 3)
 			first.insert(z ,420);
 		count++;
@@ -85,5 +86,12 @@ int	main()
 		std::cout << "__ : " << i << std::endl;
 	}
 
+	// first.insert(first.begin(), second.begin(), second.end());
+	std::cout << "=============" << std::endl;
+
+	for (auto& i : first)
+	{
+		std::cout << "-> : " << i << std::endl;
+	}
 	return (0);
 }
