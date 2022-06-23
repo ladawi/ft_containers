@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/22 11:40:49 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/23 10:33:34 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,7 @@ int	main()
 	ft::vector<int> first;                                // empty vector of ints
 	std::vector<int> second (4,100);                       // four ints with value 100
 	ft::vector<int> third (second.begin(),second.end());
-	// for (int i = 0; i < 4; i++)
-	// {
-	// 	std::cout << third[i] << std::endl;
-	// }
-	// first.reserve(42);
-	std::cout << "reserve done\n";
+
 	first.push_back(99);
 	first.push_back(34);
 	first.push_back(1);
@@ -66,8 +61,8 @@ int	main()
 	first.push_back(42);
 	first.push_back(41);
 	first.reserve(17);
-	// first.push_back(43);
-	// first.push_back(44);
+	first.push_back(43);
+	first.push_back(44);
 	
 	std::cout << "non." << std::endl;
 	auto i = first.end();
@@ -79,16 +74,19 @@ int	main()
 			first.insert(z ,420);
 		count++;
 	}
-	std::cout << "non." << std::endl;
+	std::cout << "=============" << std::endl;
 
 	for (auto& i : first)
 	{
 		std::cout << "__ : " << i << std::endl;
 	}
 
-	// first.insert(first.begin(), second.begin(), second.end());
+	first.insert(first.begin(), second.begin(), second.end());
 	std::cout << "=============" << std::endl;
-
+	bool v1;
+	ft::vectorIterator<int> it;
+	std::cout << "-> " << (ft::is_input_iterator<ft::vectorIterator<int>>::value) << std::endl;
+	std::cout << "" << std::endl;
 	for (auto& i : first)
 	{
 		std::cout << "-> : " << i << std::endl;

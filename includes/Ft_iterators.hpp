@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 09:36:35 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/21 10:24:23 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/23 10:07:04 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,21 @@ namespace ft {
 	struct forward_iterator_tag : input_iterator_tag {};
 	struct bidirectional_iterator_tag : forward_iterator_tag {};
 	struct random_access_iterator_tag : bidirectional_iterator_tag {};
+
+	template <class T>
+	struct is_input_iterator
+	{
+		typedef char yes[1];
+		typedef char no[2];
+
+		template <typename C>
+		static yes &test(typename C::iterator_category *);
+
+		template <typename>
+		static no &test(...);
+
+		static const bool value = sizeof(test<T>(NULL)) == sizeof(yes);
+	};
 
 	template <class T>
 	struct iterator_traits
@@ -39,6 +54,7 @@ namespace ft {
 		typedef it								&reference;
 		typedef ft::random_access_iterator_tag	iterator_category;
 	};
+
 
 	template <class It>
 	void do_advance(It &it, typename ft::iterator_traits<It>::difference_type n,
@@ -67,6 +83,7 @@ namespace ft {
 		ft::advance(it, n);
 		return (it);
 	}
+
 }
 
 #endif

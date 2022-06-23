@@ -6,7 +6,7 @@
 # include "VectorIterators.hpp"
 # include "ConstVectorIterators.hpp"
 # include "Ft_iterators.hpp"
-
+# include "sfinae_template.hpp"
 # include <cmath>
 
 namespace ft {
@@ -191,7 +191,7 @@ namespace ft {
 				_size--;
 		}
 
-		iterator insert(iterator position, const value_type &val) {
+		ft::vectorIterator<T> insert(iterator position, const value_type &val) {
 			this->insert(position, 1, val);
 			return (this->begin());
 		}
@@ -218,16 +218,15 @@ namespace ft {
 		}
 
 		template <class InputIterator>
-		void insert (iterator position, InputIterator first, InputIterator last) {
-			std::cout << "Iterator Insert called\n";
+		void insert(iterator position, InputIterator first, typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type last)
+		{
 			size_type delta = position - this->begin();
-			size_type n;
+			size_type n = 0;
 
-			for (auto it = first; it != last; it++)
+			for (InputIterator it = first; it != last; it++)
 			{
 				n++;
 			}
-
 			if (this->_capacity < this->_size + n)
 			{
 				if (this->_capacity * 2 < this->_size + n)
@@ -241,9 +240,12 @@ namespace ft {
 			_size += n;
 			for (iterator it = ft::prev(this->end()); it != ft::next(position, n - 1); --it)
 				*it = *ft::prev(it, n);
-			// for (iterator it = position; it != position + n; ++it)
-			// 	*it = val;
+			for (iterator it = position; it != position + n; ++it)
+				*it = *first++;
 		}
+
+		void	clear() {
+		};
 
 		/*
 			================================ Except ================================

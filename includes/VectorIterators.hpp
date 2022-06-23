@@ -6,12 +6,12 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:03:37 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/22 11:35:49 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/23 10:10:08 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_ITERATTOR_HPP
-# define VECTOR_ITERATTOR_HPP
+#ifndef VECTOR_ITERATOR_HPP
+# define VECTOR_ITERATOR_HPP
 
 # include "RandomAccessIterator.hpp"
 
