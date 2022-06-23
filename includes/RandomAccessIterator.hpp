@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 17:24:20 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/22 11:36:09 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/23 11:24:03 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ template<class T>
 			RandomAccessIterator() : _ptr(NULL) {};
 			RandomAccessIterator(pointer x) : _ptr(x) {};
 			RandomAccessIterator(const RandomAccessIterator &x) { *this = x; };
-			~RandomAccessIterator() {};
+			virtual ~RandomAccessIterator() {};
 
 			bool	operator==(const RandomAccessIterator& rhs) const {
 				return (_ptr == rhs._ptr);

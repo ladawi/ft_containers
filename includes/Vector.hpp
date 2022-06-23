@@ -143,7 +143,7 @@ namespace ft {
 			}
 
 			size_type	max_size() const {
-				return (pow(2, 32)/sizeof(value_type) - 1);
+				return (Allocator().max_size());
 			}
 
 			bool	empty() const {
@@ -191,7 +191,8 @@ namespace ft {
 				_size--;
 		}
 
-		ft::vectorIterator<T> insert(iterator position, const value_type &val) {
+		iterator insert(iterator position, const value_type &val)
+		{
 			this->insert(position, 1, val);
 			return (this->begin());
 		}
@@ -245,6 +246,8 @@ namespace ft {
 		}
 
 		void	clear() {
+			while (_size > 0)
+				pop_back();
 		};
 
 		/*
