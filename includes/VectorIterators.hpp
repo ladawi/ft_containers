@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:03:37 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/23 11:39:27 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/24 10:04:47 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ namespace ft {
 	template<class T>
 	class vectorIterator : public RandomAccessIterator<T> {
 
-	protected:
-		vectorIterator(RandomAccessIterator<T> src) : RandomAccessIterator<T>(src){};
 	public:
 		typedef T value_type;
 		typedef T* pointer_type;
 		typedef T& reference_type;
 		typedef std::ptrdiff_t difference_type;
 
+	private:
+		vectorIterator(const RandomAccessIterator<T> src) : RandomAccessIterator<T>(src) {};
 
 	public:
 		vectorIterator(void) : RandomAccessIterator<T>() {};
@@ -38,15 +38,56 @@ namespace ft {
 		vectorIterator &operator+=(difference_type n);
 		vectorIterator &operator-=(difference_type n);
 
-		vectorIterator operator+(difference_type n) const {
+		vectorIterator operator+(difference_type n) const
+		{
 			return (vectorIterator(RandomAccessIterator<T>::operator+(n)));
 		};
-		difference_type operator-(const RandomAccessIterator<T> &rhs) const {
+		difference_type operator-(const RandomAccessIterator<T> &rhs) const
+		{
 			return (RandomAccessIterator<T>::operator-(rhs));
 		};
-		vectorIterator operator-(difference_type n) const {
+		vectorIterator operator-(difference_type n) const
+		{
 			return (vectorIterator(RandomAccessIterator<T>::operator-(n)));
 		};
+
+		vectorIterator &operator++()
+		{
+			this->_ptr++;
+			return (*this);
+		}
+
+		vectorIterator operator++(int)
+		{
+			vectorIterator iterator = *this;
+			++(*this);
+			return (iterator);
+		}
+		
+		vectorIterator &operator--()
+		{
+			this->_ptr--;
+			return (*this);
+		}
+		vectorIterator operator--(int)
+		{
+			vectorIterator iterator = *this;
+			--(*this);
+			return (iterator);
+		}
+
+		friend vectorIterator	operator+(difference_type n, const vectorIterator &rhs) {
+				return rhs.operator+(n);
+		};
+
+		pointer_type operator->(void)
+		{
+			return (this->_ptr);
+		}
+		reference_type operator*(void)
+		{
+			return (*this->_ptr);
+		}
 	};
 
 	template <class T>

@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/23 11:03:44 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/24 10:31:41 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 int	main()
 {
 	ft::vector<int> first;                                // empty vector of ints
-	std::vector<int> second (4,100);                       // four ints with value 100
-	ft::vector<int> third (second.begin(),second.end());
+	ft::vector<int> second (4,100);                       // four ints with value 100
+	// ft::vector<int> third (second.begin(),second.end());
 
 	first.push_back(99);
 	first.push_back(34);
@@ -55,6 +55,24 @@ int	main()
 	std::cout << "-> " << (ft::is_input_iterator<ft::vectorIterator<int>>::value) << std::endl;
 	std::cout << "" << std::endl;
 	for (auto& i : first)
+	{
+		std::cout << "-> : " << i << std::endl;
+	}
+	std::cout << "=============" << std::endl;
+	std::cout << "removing : " << *(first.begin() + 5) << std::endl;
+	first.erase(first.begin(), first.begin() + 5);
+	for (auto &i : first)
+	{
+		std::cout << "-> : " << i << std::endl;
+	}
+	std::cout << "===================" << std::endl;
+	first.swap(second);
+	for (auto &i : first)
+	{
+		std::cout << "-> : " << i << std::endl;
+	}
+	std::cout << "-------------" << std::endl;
+	for (auto &i : second)
 	{
 		std::cout << "-> : " << i << std::endl;
 	}

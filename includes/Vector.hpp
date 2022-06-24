@@ -7,22 +7,28 @@
 # include "ConstVectorIterators.hpp"
 # include "Ft_iterators.hpp"
 # include "sfinae_template.hpp"
+# include "RevIterator.hpp"
+# include "stdexcept"
 # include <cmath>
 
 namespace ft {
 
 
-	template<class T, class Allocator = std::allocator<T> >
+	template<class T, class allocator_type = std::allocator<T> >
 	class	vector
 	{
 
 		public:
-			typedef size_t						size_type;
-			typedef T							value_type;
-			typedef vectorIterator<T>			iterator;
-			typedef const_vectorIterator<T>		const_iterator;
-			typedef std::ptrdiff_t				difference_type;
-			// typedef vectorReverseIterator<vector<T>> RevIterator;
+			typedef size_t									size_type;
+			typedef T										value_type;
+			typedef std::ptrdiff_t							difference_type;
+			typedef value_type&								const_reference;
+			typedef typename allocator_type::pointer		pointer;
+
+			typedef ft::vectorIterator<T>					iterator;
+			typedef ft::constVectorIterator<T>				const_iterator;
+			typedef ft::reverse_iterator<iterator>			reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 	/*
 		=========================== Member functions ===========================
 	*/
@@ -49,37 +55,15 @@ namespace ft {
 			};
 
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last) : _size(0) {
-				size_type	i = 0;
-				InputIterator tmp = first;
-				while (first != last)
-				{
-					i++;
-					first++;
-				}
-				first = tmp;
-				_capacity = i;
-				_array = new T[_capacity];
-				while (first != last)
-				{
-					_array[_size++] = *first;
-					first++;
-				}
+			vector(typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type &alloc = allocator_type())
+				: _size(0), _capacity(0), _array(NULL), _alloc(alloc)
+			{
+				assign(first, last);
+				// alloc = 0; // to remove
 			}
 
 			vector &		operator=( vector const & rhs ) {
-				if (rhs._size >= _size)
-				{
-					delete [] _array;
-					_capacity = rhs._size;
-					_array = new T[_capacity];
-				}
-				for (size_t i = 0; i < rhs._size; i++)
-				{
-					_array[i] = rhs._array[i];
-				}
-
-				_size = rhs._size;
+				assign(rhs.begin(), rhs.end());
 				return *this;
 			};
 	/*
@@ -94,13 +78,12 @@ namespace ft {
 
 			const_iterator	end() const { return (_array + _size); }
 
-			// iterator	begin() {
-			// 	return (iterator (_array));
-			// }
+			reverse_iterator	rbegin() { return (end()); }
 
-			// iterator	end() {
-			// 	return (iterator (_array + _size));
-			// }
+			reverse_iterator	rend() { return (begin()); }
+
+
+
 
 	/*
 		=============================== Capacity ===============================
@@ -115,7 +98,7 @@ namespace ft {
 				{
 					while (_size > n)
 					{
-						pop_back();
+						erase(this->begin() + n, this->end());
 					}
 				}
 				else
@@ -143,7 +126,7 @@ namespace ft {
 			}
 
 			size_type	max_size() const {
-				return (Allocator().max_size());
+				return (allocator_type().max_size());
 			}
 
 			bool	empty() const {
@@ -158,23 +141,30 @@ namespace ft {
 		============================ Element access ============================
 	*/
 
-			T&	operator[](unsigned int i) {
-				return (_array[i]);
-			};
+		T&	operator[](unsigned int i) {
+			return (_array[i]);
+		};
 
-			T& At(size_t n) {
-				if (n < 0 || n >= _size)
-					throw vector::OOBindex();
-				return (_array[n]);
-			};
+		T& at(size_t n) {
+			if (n < 0 || n >= _size)
+				throw std::out_of_range("OOR acces : n >= .size()");
+			return (_array[n]);
+		};
 
-			T& Front() {
-				return _array[0];
-			}
+		const_reference at(size_type n) const {
+			if (n < 0 || n >= _size)
+				throw std::out_of_range("OOR acces : n >= .size()");
+			return (_array[n]);
+		};
 
-			T& Back() {
-				return _array[_size - 1];
-			}
+		T& front() const {
+			return _array[0];
+		}
+
+		T& back() const {
+			return _array[_size - 1];
+		}
+
 
 
 	/*
@@ -182,7 +172,6 @@ namespace ft {
 	*/
 		void	push_back(const value_type &val) {
 			this->insert(this->end(), val);
-			// T issou = val;
 		};
 
 		void	pop_back()
@@ -193,8 +182,9 @@ namespace ft {
 
 		iterator insert(iterator position, const value_type &val)
 		{
+			difference_type n = position - this->begin();
 			this->insert(position, 1, val);
-			return (this->begin());
+			return (this->begin() + n);
 		}
 
 		void insert(iterator position, size_type n, const value_type &val)
@@ -245,22 +235,54 @@ namespace ft {
 				*it = *first++;
 		}
 
-		void	clear() {
-			while (_size > 0)
-				pop_back();
+
+		iterator erase(iterator position) {
+			return (erase(position, position + 1));
 		};
 
-		/*
-			================================ Except ================================
-		*/
+		iterator erase(iterator first, iterator last) {
+			size_type	delta = last - first;
+			size_type	offset = first - this->begin();
 
-		class OOBindex : public std::out_of_range
+			for (size_type i = 0; i < _size - delta - offset; i++)
+			{
+				*first = *ft::next(first, delta);
+				first++;
+			}
+			_size = _size - delta;
+			return (this->begin() + offset);
+		};
+
+		template <class InputIterator>
+		void assign(typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
 		{
-			public:
-				virtual const char* what() const throw()
-				{
-					return("vector::_M_range_check");
-				}
+			this->clear();
+			this->insert(this->begin(), first, last);
+		};
+
+		void assign (size_type n, const value_type& val) {
+			this->clear();
+			this->reserve(n);
+			this->insert(this->begin(), n, val);
+		};
+
+		template <class vector>
+		void swap (vector& x) {
+			pointer		tmp_array = this->_array;
+			size_type	tmp_size = this->_size;
+			size_type	tmp_capacity = this->_capacity;
+
+			this->_array = x._array;
+			this->_size = x._size;
+			this->_capacity = x._capacity;
+
+			x._array = tmp_array;
+			x._size = tmp_size;
+			x._capacity = tmp_capacity;
+		};
+
+		void	clear() {
+			erase(this->begin(), this->end());
 		};
 
 	/*
@@ -289,10 +311,10 @@ namespace ft {
 	*/
 		private:
 
-			size_t		_size;
-			size_t		_capacity;
-			T*			_array;
-
+			size_t			_size;
+			size_t			_capacity;
+			T*				_array;
+			allocator_type	_alloc;
 	};
 
 }
