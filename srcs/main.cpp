@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/24 10:31:41 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/25 10:37:53 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,9 @@ int	main()
 	{
 		std::cout << "-> : " << i << std::endl;
 	}
+	std::cout << "-------------" << std::endl;
+
+	if (!(first < second))
+		std::cout << "ISSOU\n";
 	return (0);
 }

@@ -9,6 +9,7 @@
 # include "sfinae_template.hpp"
 # include "RevIterator.hpp"
 # include "stdexcept"
+# include "ft_utils.hpp"
 # include <cmath>
 
 namespace ft {
@@ -304,6 +305,22 @@ namespace ft {
 
 		bool operator!=(const vector& rhs) const {
 			return !(*this == rhs);
+		}
+
+		bool	operator<(const vector &rhs) const {
+			return(std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
+		}
+
+		bool	operator>(const vector &rhs) const {
+			return (!(std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())) && this->operator!=(rhs));
+		}
+
+		bool	operator>=(const vector &rhs) const {
+			return (!(std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())));
+		}
+
+		bool	operator<=(const vector &rhs) const {
+			return ((std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())) || this->operator==(rhs));
 		}
 
 	/*
