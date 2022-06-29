@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/25 10:37:53 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/06/29 12:34:40 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <iostream>
 #include <stdexcept>
 #include "Vector.hpp"
+#include "stack.hpp"
 
 int	main()
 {
@@ -21,64 +22,56 @@ int	main()
 	ft::vector<int> second (4,100);                       // four ints with value 100
 	// ft::vector<int> third (second.begin(),second.end());
 
-	first.push_back(99);
-	first.push_back(34);
-	first.push_back(1);
-	first.push_back(123);
-	first.push_back(42);
-	first.push_back(41);
-	first.reserve(17);
-	first.push_back(43);
-	first.push_back(44);
+	// first.push_back(99);
+	// first.push_back(34);
+	// first.push_back(1);
+	// first.push_back(123);
+	// first.push_back(42);
+	// first.push_back(41);
+	// first.reserve(17);
+	// first.push_back(43);
+	// first.push_back(44);
 	
-	std::cout << "non." << std::endl;
-	auto i = first.end();
-	int count = 0;
-	for (auto z = first.begin(); z != i; z++)
-	{
-		std::cout << "issou = " << *z << std::endl;
-		if (count == 3)
-			first.insert(z ,420);
-		count++;
-	}
-	std::cout << "=============" << std::endl;
+	// std::cout << "non." << std::endl;
+	// auto i = first.end();
+	// int count = 0;
+	// for (auto z = first.begin(); z != i; z++)
+	// {
+	// 	std::cout << "issou = " << *z << std::endl;
+	// 	if (count == 3)
+	// 		first.insert(z ,420);
+	// 	count++;
+	// }
+	// std::cout << "=============" << std::endl;
 
-	for (auto& i : first)
-	{
-		std::cout << "__ : " << i << std::endl;
-	}
+	// for (auto& i : first)
+	// {
+	// 	std::cout << "__ : " << i << std::endl;
+	// }
 
-	first.insert(first.begin(), second.begin(), second.end());
-	std::cout << "=============" << std::endl;
-	bool v1;
-	ft::vectorIterator<int> it;
-	std::cout << "-> " << (ft::is_input_iterator<ft::vectorIterator<int>>::value) << std::endl;
-	std::cout << "" << std::endl;
-	for (auto& i : first)
-	{
-		std::cout << "-> : " << i << std::endl;
-	}
-	std::cout << "=============" << std::endl;
-	std::cout << "removing : " << *(first.begin() + 5) << std::endl;
-	first.erase(first.begin(), first.begin() + 5);
-	for (auto &i : first)
-	{
-		std::cout << "-> : " << i << std::endl;
-	}
+	// first.insert(first.begin(), second.begin(), second.end());
+	// std::cout << "=============" << std::endl;
+	// bool v1;
+	// ft::vectorIterator<int> it;
+	// std::cout << "-> " << (ft::is_input_iterator<ft::vectorIterator<int>>::value) << std::endl;
+	// std::cout << "" << std::endl;
+	// for (auto& i : first)
+	// {
+	// 	std::cout << "-> : " << i << std::endl;
+	// }
+	// std::cout << "=============" << std::endl;
+	// std::cout << "removing : " << *(first.begin() + 5) << std::endl;
+	// first.erase(first.begin(), first.begin() + 5);
 	std::cout << "===================" << std::endl;
-	first.swap(second);
-	for (auto &i : first)
-	{
-		std::cout << "-> : " << i << std::endl;
-	}
-	std::cout << "-------------" << std::endl;
-	for (auto &i : second)
-	{
-		std::cout << "-> : " << i << std::endl;
-	}
-	std::cout << "-------------" << std::endl;
 
-	if (!(first < second))
-		std::cout << "ISSOU\n";
+	ft::stack<int> Monaks;                                // empty vector of ints\
+	
+	// Monaks.push_back(12);
+		std::cout << "empty? -> " << Monaks.empty() << std::endl;
+		std::cout << "_size -> " << Monaks.size() << std::endl;
+		std::cout << "top -> " << Monaks.top() << std::endl;
+		std::cout << "push" << std::endl;
+		Monaks.push(42);
+		std::cout << "top -> " << Monaks.top() << std::endl;
 	return (0);
 }
