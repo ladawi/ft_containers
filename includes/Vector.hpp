@@ -90,7 +90,7 @@ namespace ft {
 		=============================== Capacity ===============================
 	*/
 
-			size_t	size(void) const {
+			size_type	size(void) const {
 				return(_size);
 			}
 
@@ -134,7 +134,7 @@ namespace ft {
 				return(_size == 0);
 			}
 
-			size_t	capacity() const {
+			size_type	capacity() const {
 				return(_capacity);
 			}
 
