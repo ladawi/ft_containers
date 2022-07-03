@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/29 12:34:40 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/01 15:42:43 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <stdexcept>
 #include "Vector.hpp"
 #include "stack.hpp"
+#include "pair.hpp"
+
 
 int	main()
 {
@@ -64,14 +66,25 @@ int	main()
 	// first.erase(first.begin(), first.begin() + 5);
 	std::cout << "===================" << std::endl;
 
-	ft::stack<int> Monaks;                                // empty vector of ints\
-	
+	ft::stack<int> Monaks;
 	// Monaks.push_back(12);
 		std::cout << "empty? -> " << Monaks.empty() << std::endl;
 		std::cout << "_size -> " << Monaks.size() << std::endl;
 		std::cout << "top -> " << Monaks.top() << std::endl;
 		std::cout << "push" << std::endl;
 		Monaks.push(42);
-		std::cout << "top -> " << Monaks.top() << std::endl;
+		Monaks.push(21);
+		Monaks.pop();
+		Monaks.push(29);
+		Monaks.pop();
+
+	ft::stack<int> Lulw(Monaks);
+
+	std::cout << "Monaks == Lulw -> " << (Monaks == Lulw) << std::endl;
+	Monaks.push(27);
+	std::cout << "Monaks == Lulw -> " << (Monaks == Lulw) << std::endl;
+	std::cout << "Monaks != Lulw -> " << (Monaks != Lulw) << std::endl;
+
+	std::cout << "top -> " << Monaks.top() << std::endl;
 	return (0);
 }

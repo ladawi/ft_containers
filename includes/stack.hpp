@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:04:44 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/29 12:34:46 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/01 14:48:53 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft {
 
-template<class T, class container_type = ft::vector<T>>
+template<class T, class container_type = ft::vector<T> >
 class	stack {
 
 	public:
@@ -25,32 +25,29 @@ class	stack {
 	typedef	T		value_type;
 	typedef size_t	size_type;
 
-	explicit stack (const container_type& ctnr = container_type()) : _tmp(ctnr) {};
+	explicit stack (const container_type& ctnr = container_type()) : _c(ctnr) {};
+	~stack() {};
+	bool	empty() const	{ return(_c.empty()); }
 
+	size_type	size(void) const	{ return(_c.size()); }
 
+	value_type&	top()	{ return(*(_c.end() - 1)); }
 
-	bool	empty() const {
-		return(_tmp.empty());
-	}
+	void	push (const value_type& val)	{ _c.push_back(val); }
 
-	size_type	size(void) const {
-		return(_tmp.size());
-	}
+	void	pop()	{ _c.pop_back(); }
 
-	value_type&	top() {
-		return(*(_tmp.end() - 1));
-	}
+	bool operator==(const stack& rhs) const	{ return (_c.operator==(rhs._c)); }
+	bool operator!=(const stack& rhs) const	{ return (_c.operator!=(rhs._c)); }
+	bool operator>=(const stack& rhs) const	{ return (_c.operator>=(rhs._c)); }
+	bool operator<=(const stack& rhs) const	{ return (_c.operator<=(rhs._c)); }
+	bool operator<(const stack& rhs) const	{ return (_c.operator<(rhs._c)); }
+	bool operator>(const stack& rhs) const	{ return (_c.operator>(rhs._c)); }
 
-	void push (const value_type& val) {
-		_tmp.push_back(val);
-	}
-
-
-	private:
 
 	protected:
 
-		container_type	_tmp;
+		container_type	_c;
 
 };
 
