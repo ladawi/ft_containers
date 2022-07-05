@@ -30,10 +30,18 @@ namespace ft {
 			typedef ft::constVectorIterator<T>				const_iterator;
 			typedef ft::reverse_iterator<iterator>			reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+
+		private:
+
+			size_t			_size;
+			size_t			_capacity;
+			T*				_array;
+			allocator_type	_alloc;
+
+		public:
 	/*
 		=========================== Member functions ===========================
 	*/
-		public:
 			vector< T >() : _size(0), _capacity(0), _array(NULL) {};
 
 			vector< T >(size_t n, const T& val = T()) : _size(n), _capacity(n), _array(new T[n]) {
@@ -326,12 +334,6 @@ namespace ft {
 	/*
 		============================== End public ==============================
 	*/
-		private:
-
-			size_t			_size;
-			size_t			_capacity;
-			T*				_array;
-			allocator_type	_alloc;
 	};
 
 }

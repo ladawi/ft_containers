@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/03 12:10:39 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/05 18:56:00 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,37 @@
 #include <iostream>
 #include <stdexcept>
 #include "Vector.hpp"
-#include "Stack.hpp"
+#include "map.hpp"
+#include "stack.hpp"
 #include "Pair.hpp"
-
+#include "node.hpp"
+#include <map>
 int	main()
 {
 	std::cout << "===================" << std::endl;
 
-	std::pair <std::string,int> planet, homeplanet;
+	ft::map<char, int> mymap;
+	std::map<char, int> second;
+
+	std::cout << "is mymap empty ? " << mymap.empty() << std::endl;
+	std::cout << "is second empty ? " << second.empty() << std::endl;
+
+	std::cout << "------" << std::endl;
+
+	second.insert(std::pair<char,int>('a', 100));
+	mymap.insert(ft::pair<char,int>('b', 12));
+	mymap.insert(ft::pair<char,int>('*', 42));
 	
-	planet = std::make_pair("Earth",6371);
+	std::cout << "------" << std::endl;
+	
+	std::cout << "is mymap empty ? " << mymap.empty() << std::endl;
+	std::cout << "is second empty ? " << second.empty() << std::endl;
 
-	homeplanet = planet;
-
-	std::cout << "Home planet: " << homeplanet.first << '\n';
-	std::cout << "Planet size: " << homeplanet.second << '\n';
-
+	std::cout << "------" << std::endl;
 	std::cout << "===================" << std::endl;
 
-	ft::pair<int,char> foo (10,'z');
-	ft::pair<int,char> bar (90,'a');
+	std::cout << "node val mymap -> " << mymap._head->_value.second << std::endl;
 	
-	if (foo==bar) std::cout << "foo and bar are equal\n";
-	if (foo!=bar) std::cout << "foo and bar are not equal\n";
-	if (foo< bar) std::cout << "foo is less than bar\n";
-	if (foo> bar) std::cout << "foo is greater than bar\n";
-	if (foo<=bar) std::cout << "foo is less than or equal to bar\n";
-	if (foo>=bar) std::cout << "foo is greater than or equal to bar\n";
-	std::cout << "===================" << std::endl;
-
-	ft::pair <int,int> foo2;
-	ft::pair <int,int> bar2;
-
-	foo2 = ft::make_pair (10,20);
-	bar2 = ft::make_pair (10.5,'A');
-
-	std::cout << "foo2: " << foo2.first << ", " << foo2.second << '\n';
-	std::cout << "bar2: " << bar2.first << ", " << bar2.second << '\n';
 	std::cout << "===================" << std::endl;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 08:09:34 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/25 12:15:16 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/05 16:29:54 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ namespace ft {
 	template <>
 	struct	is_integral<char> { static const bool value = true; };
 
-	template <>
-	struct	is_integral<char16_t> { static const bool value = true; };
+	// template <>
+	// struct	is_integral<char16_t> { static const bool value = true; };
 	
-	template <>
-	struct	is_integral<char32_t> { static const bool value = true; };
+	// template <>
+	// struct	is_integral<char32_t> { static const bool value = true; };
 
 	template <>
 	struct	is_integral<wchar_t> { static const bool value = true; };
