@@ -42,106 +42,104 @@ namespace ft {
 	/*
 		=========================== Member functions ===========================
 	*/
-			vector< T >() : _size(0), _capacity(0), _array(NULL) {};
+		vector< T >() : _size(0), _capacity(0), _array(NULL) {};
 
-			vector< T >(size_t n, const T& val = T()) : _size(n), _capacity(n), _array(new T[n]) {
-				for (size_t i = 0; i < n; i++)
-				{
-					_array[i] = val;
-				}
-			};
-
-			vector< T >( vector const &rhs ) : _size(rhs.size()), _capacity(rhs.capacity()), _array(new T[_capacity]) {
-				for (size_t i = 0; i < rhs.size(); i++)
-				{
-					_array[i] = rhs._array[i];
-				}
-
-			};
-
-			~vector< T >() {
-				delete [] _array;
-			};
-
-			template <class InputIterator>
-			vector(typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type &alloc = allocator_type())
-				: _size(0), _capacity(0), _array(NULL), _alloc(alloc)
+		vector< T >(size_t n, const T& val = T()) : _size(n), _capacity(n), _array(new T[n]) {
+			for (size_t i = 0; i < n; i++)
 			{
-				assign(first, last);
-				// alloc = 0; // to remove
+				_array[i] = val;
 			}
+		};
 
-			vector &		operator=( vector const & rhs ) {
-				assign(rhs.begin(), rhs.end());
-				return *this;
-			};
+		vector< T >( vector const &rhs ) : _size(rhs.size()), _capacity(rhs.capacity()), _array(new T[_capacity]) {
+			for (size_t i = 0; i < rhs.size(); i++) {
+				_array[i] = rhs._array[i];
+			}
+		};
+
+		~vector< T >() {
+			delete [] _array;
+		};
+
+		template <class InputIterator>
+		vector(typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type &alloc = allocator_type())
+			: _size(0), _capacity(0), _array(NULL), _alloc(alloc)
+		{
+			assign(first, last);
+			// alloc = 0; // to remove
+		}
+
+		vector &		operator=( vector const & rhs ) {
+			assign(rhs.begin(), rhs.end());
+			return *this;
+		};
 	/*
 		=============================== Iterator ===============================
 	*/
 
-			iterator	begin() { return (_array); }
+		iterator	begin() { return (_array); }
 
-			iterator	end() { return (_array + _size); }
+		iterator	end() { return (_array + _size); }
 
-			const_iterator	begin() const { return (_array); }
+		const_iterator	begin() const { return (_array); }
 
-			const_iterator	end() const { return (_array + _size); }
+		const_iterator	end() const { return (_array + _size); }
 
-			reverse_iterator	rbegin() { return (end()); }
+		reverse_iterator	rbegin() { return (end()); }
 
-			reverse_iterator	rend() { return (begin()); }
+		reverse_iterator	rend() { return (begin()); }
 
 	/*
 		=============================== Capacity ===============================
 	*/
 
-			size_type	size(void) const {
-				return(_size);
-			}
+		size_type	size(void) const {
+			return(_size);
+		}
 
-			void	resize(size_type n, value_type val = value_type()) {
-				if (_size > n)
+		void	resize(size_type n, value_type val = value_type()) {
+			if (_size > n)
+			{
+				while (_size > n)
 				{
-					while (_size > n)
-					{
-						erase(this->begin() + n, this->end());
-					}
-				}
-				else
-				{
-					while (_size < n)
-						push_back(val);
+					erase(this->begin() + n, this->end());
 				}
 			}
+			else
+			{
+				while (_size < n)
+					push_back(val);
+			}
+		}
 
-			void	reserve (size_type n) {
-				if (n > _capacity)
+		void	reserve (size_type n) {
+			if (n > _capacity)
+			{
+				T *newarray = new T[n];
+				// std::cout << "Reserve called : " << _size << " capa = " << _array[0] << std::endl;
+				for (size_type i = 0; i < _size; i++)
 				{
-					T *newarray = new T[n];
-					// std::cout << "Reserve called : " << _size << " capa = " << _array[0] << std::endl;
-					for (size_type i = 0; i < _size; i++)
-					{
-						newarray[i] = _array[i];
-					}
-					// newarray[_size] = val;
-					// ++_size;
-					delete[] _array;
-					_array = newarray;
-					_capacity = n; // size of the realloc, change it mb ?
+					newarray[i] = _array[i];
 				}
+				// newarray[_size] = val;
+				// ++_size;
+				delete[] _array;
+				_array = newarray;
+				_capacity = n; // size of the realloc, change it mb ?
 			}
+		}
 
-			size_type	max_size() const {
-				return (allocator_type().max_size());
-			}
+		size_type	max_size() const {
+			return (allocator_type().max_size());
+		}
 
-			bool	empty() const {
-				return(_size == 0);
-			}
+		bool	empty() const {
+			return(_size == 0);
+		}
 
-			size_type	capacity() const {
-				return(_capacity);
-			}
+		size_type	capacity() const {
+			return(_capacity);
+		}
 
 	/*
 		============================ Element access ============================

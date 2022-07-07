@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 10:05:11 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/05 17:17:29 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/07 15:18:04 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@ namespace ft {
 	};
 
 	template <class T>
-	class less {
+	struct less {
 		bool operator()(const T &lhs, const T &rhs) const {
 			return (lhs < rhs);
 		}
 	};
 
+	template <class T> const T& max (const T& a, const T& b) {
+	return ((a < b) ? b : a);	// or: return comp(a,b)?b:a; for version (2)
+	}
 }
 
 #endif

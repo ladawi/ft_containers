@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 16:42:24 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/05 18:37:38 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/07 18:23:11 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,32 @@ namespace	ft {
 		typedef size_t				size_type;
 		typedef T					value_type;
 		typedef std::ptrdiff_t		difference_type;
-		typedef value_type&			reference;
-		typedef value_type*			pointer;
+		typedef node&			reference;
+		typedef node*			pointer;
 
 	public:
 
-		node< T >() : _parent(0), _left(0), _right(0), _value() {};
-		node< T >(value_type const &x) : _value(x), _parent(0), _left(0), _right(0) {};
-		node< T >(const node &x) : _value(x._value), _parent(x._parent), _left(x._left), _right(x._right) {};
+		node< T >() : parent(0), left(0), right(0), value(), height(1) {};
+		node< T >(value_type const &x) : value(x), parent(0), left(0), right(0), height(1) {};
+		node< T >(const node &x) : value(x.value), parent(x.parent), left(x.left), right(x.right), height(x.height) {};
 		~node< T >() {};
 
 		node &	operator=(node const &rhs) {
-			_parent = rhs._parent;
-			_left = rhs._left;
-			_right = rhs._right;
-			_value = rhs._value;
+			parent = rhs.parent;
+			left = rhs.left;
+			right = rhs.right;
+			value = rhs.value;
+			height = rhs.height;
 			return (*this);
 		}
 
-		pointer		_parent;
-		pointer		_right;
-		pointer		_left;
+		value_type	value;
 
-		value_type	_value;
+		pointer		parent;
+		pointer		left;
+		pointer		right;
+
+		int			height;
 
 	};
 

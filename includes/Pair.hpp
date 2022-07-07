@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:24:02 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/02 15:21:24 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/07 15:29:32 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ namespace	ft {
 		pair() : first(), second() {};
 		template<class U, class V> pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {};
 		pair (const first_type& a, const second_type& b) : first(a), second(b) {};
+		~pair() {};
 
 		pair&	operator=(const pair &rhs) {
 			this->first = rhs.first;

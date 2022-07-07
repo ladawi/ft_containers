@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   MapIterator.hpp                                    :+:      :+:    :+:   */
+/*   ConstMapIterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:55:34 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/07 19:08:56 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/07 19:08:54 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_ITERATOR_HPP
-# define MAP_ITERATOR_HPP
+#ifndef CONST_MAP_ITERATOR_HPP
+# define CONST_MAP_ITERATOR_HPP
 
 # include "Bidirectional_Iterator.hpp"
 # include "node.hpp"
@@ -19,7 +19,7 @@
 namespace	ft {
 
 	template<class T>
-	class MapIterator {
+	class ConstMapIterator {
 
 	public:
 		typedef T value_type;
@@ -39,18 +39,18 @@ namespace	ft {
 
 
 	public:
-		MapIterator(void) : _node() {};
-		MapIterator(const MapIterator &x) : _node(x._node) {};
-		MapIterator(const node_pointer x) : _node(x) {};
-		~MapIterator() {};
-		MapIterator		operator=(const MapIterator &x) { this->_node = x.node(); }
+		ConstMapIterator(void) : _node() {};
+		ConstMapIterator(const ConstMapIterator &x) : _node(x._node) {};
+		ConstMapIterator(const node_pointer x) : _node(x) {};
+		~ConstMapIterator() {};
+		ConstMapIterator		operator=(const ConstMapIterator &x) { this->_node = x.node(); }
 
-		MapIterator operator++(int) {
+		ConstMapIterator operator++(int) {
 			
 		};
-		MapIterator &operator++() {};
-		MapIterator operator--(int) {};
-		MapIterator &operator--() {};
+		ConstMapIterator &operator++() {};
+		ConstMapIterator operator--(int) {};
+		ConstMapIterator &operator--() {};
 
 
 
@@ -62,7 +62,7 @@ namespace	ft {
 			return &(this->_node->value);
 		};
 
-		bool operator==(const MapIterator &rhs) const;
+		bool operator==(const ConstMapIterator &rhs) const;
 	};
 }
 

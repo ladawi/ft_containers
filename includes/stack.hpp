@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:04:44 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/07 13:21:29 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/07 13:21:51 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ class	stack {
 	bool operator>=(const stack& rhs) const { return (this->_c >= rhs._c); };
 	bool operator<=(const stack& rhs) const { return (this->_c <= rhs._c); };
 	bool operator<(const stack& rhs) const { return (this->_c < rhs._c); };
-
-	
 
 	protected:
 
