@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 09:36:35 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/23 10:07:04 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/07 13:10:32 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ namespace ft {
 	template <class It>
 	void do_advance(It &it, typename ft::iterator_traits<It>::difference_type n,
 		ft::random_access_iterator_tag)
+	{
+		it += n;
+	}
+
+	template <class It>
+	void do_advance(It &it, typename ft::iterator_traits<It>::difference_type n,
+		ft::input_iterator_tag)
 	{
 		it += n;
 	}

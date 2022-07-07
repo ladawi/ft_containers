@@ -23,9 +23,9 @@ namespace ft {
 			typedef size_t									size_type;
 			typedef T										value_type;
 			typedef std::ptrdiff_t							difference_type;
-			typedef value_type&								const_reference;
+			typedef typename allocator_type::reference			reference;
+			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer		pointer;
-
 			typedef ft::vectorIterator<T>					iterator;
 			typedef ft::constVectorIterator<T>				const_iterator;
 			typedef ft::reverse_iterator<iterator>			reverse_iterator;
@@ -90,9 +90,6 @@ namespace ft {
 			reverse_iterator	rbegin() { return (end()); }
 
 			reverse_iterator	rend() { return (begin()); }
-
-
-
 
 	/*
 		=============================== Capacity ===============================
@@ -160,20 +157,19 @@ namespace ft {
 			return (_array[n]);
 		};
 
-		const_reference at(size_type n) const {
+		reference at(size_type n) const {
 			if (n < 0 || n >= _size)
 				throw std::out_of_range("OOR acces : n >= .size()");
 			return (_array[n]);
 		};
 
-		T& front() const {
-			return _array[0];
-		}
+		reference front() { return _array[0]; }
 
-		T& back() const {
-			return _array[_size - 1];
-		}
+		const_reference front() const { return _array[0]; };
 
+		reference	back() { return *ft::prev(this->end()); };
+
+		const_reference	back() const { return (*ft::prev(this->end())); };
 
 
 	/*
