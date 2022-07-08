@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:24:02 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/07 15:29:32 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/08 12:37:04 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ namespace	ft {
 		pair&	operator=(const pair &rhs) {
 			this->first = rhs.first;
 			this->second = rhs.second;
+			return (*this);
+		}
+
+		pair*	operator->(void) {
 			return (*this);
 		}
 

@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:11:05 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/08 12:14:06 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/08 14:20:37 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,33 @@ namespace ft {
 		explicit map (const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) : _head(0), _alloc(alloc), _key_comp(comp)
 		{
-			// key_compare(_head->value.first, _head->value.second);
 			_ghost = new map_node();
 			_ghost->height = 0;
-			// std::cout << "_-_-_-_-_-_" << std::endl;
-			// std::cout << "p : " << _ghost->parent <<std::endl;
-			// std::cout << "r : " << _ghost->right <<std::endl;
-			// std::cout << "l : " << _ghost->left <<std::endl;
-			// std::cout << "l : " << _ghost->height <<std::endl;
-			// std::cout << "_-_-_-_-_-_" << std::endl;
 			_head = _ghost;
 		};
-		// map (const key_compare& kc, const allocator_type& alloc);
-		// map< Key, T>();
+
+		template <class InputIterator>
+		map (InputIterator first, typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type last, const key_compare& comp = key_compare(),
+			const allocator_type& alloc = allocator_type()) : _head(0), _alloc(alloc), _key_comp(comp)
+		{
+			_ghost = new map_node();
+			_ghost->height = 0;
+			while (first != last)
+			{
+				insert(*first);
+				++(first);
+			}
+		};
+		map (const map& x) {
+			_ghost = x._ghost;
+			_head = x._head;
+			_alloc = x._alloc;
+			_key_comp = x._key_comp;
+			_set_ghost();
+		};
+
 		~map() {
-			std::cout << "Destructor map called." << std::endl;
+			// std::cout << "Destructor map called." << std::endl;
 			delete _head;
 		};
 		
@@ -203,42 +215,92 @@ namespace ft {
 	*/
 
 		pair<iterator, bool> insert (const value_type& val) {
+			pair<iterator, bool> ret;
 			_disable_ghost();
-			_head = _insert(val, _head, NULL);
+			_head = _insert(val, _head, NULL, ret);
 			_set_ghost();
-			return (ft::pair<iterator, int>(NULL,1));
+			return (ret);
 		};
+		// template <class InputIterator>
+		// void insert (InputIterator first, InputIterator last) {
+			
+		// };
 	/*
 		=============================== Overload ===============================
 	*/
 
 	/*
-		============================== End public ==============================
+		============================== Operations ==============================
 	*/
+		iterator lower_bound (const key_type& k) {
+			iterator it = begin();
+
+			while (_key_comp(it->first, k) && it != end())
+				it++;
+			return (it);
+		};
+
+		const_iterator lower_bound (const key_type& k) const {
+			const_iterator it = begin();
+
+			while (_key_comp(it->first, k) && it != end())
+				it++;
+			return (it);
+		};
+
+		iterator upper_bound (const key_type& k) {
+			iterator it = begin();
+
+			while (_key_comp(k, it->first) != true && it != end())
+				it++;
+			return (it);
+		};
+
+		const_iterator upper_bound (const key_type& k) const {
+			const_iterator it = begin();
+
+			while (_key_comp(k, it->first) != true && it != end())
+				it++;
+			return (it);
+		};
+
+		pair<const_iterator,const_iterator>	equal_range (const key_type& k) const {
+			const_iterator it = lower_bound(k);
+			const_iterator ite = upper_bound(k);
+			
+			return (ft::make_pair(it, ite));
+		};
+
+		pair<iterator,iterator>				equal_range (const key_type& k) {
+			iterator it = lower_bound(k);
+			iterator ite = upper_bound(k);
+			
+			return (ft::make_pair(it, ite));
+		};
 
 	/*
 		============================ Private method ============================
 	*/
 	private:
 
-		node_pointer	_insert(const value_type& val, node_pointer node, node_pointer parent) {
+		node_pointer	_insert(const value_type& val, node_pointer node, node_pointer parent, pair<iterator,bool> ret) {
 			if (!node || node == _ghost)
 			{
 				// add node
 				node = new map_node(val);
 				node->parent = parent;
+				ret = ft::pair<iterator, bool>(node, true);
 				return (node);
 			}
 			else if (val.first == node->value.first) {
-				// ret = ft::pair<iterator, bool>(node, false);
-				std::cout << "Monaks" << std::endl;
+				ret = ft::pair<iterator, bool>(node, false);
 				return (node);
 			}
 			else if (_key_comp(val.first, node->value.first)) {
-				node->left = _insert(val, node->left, node);
+				node->left = _insert(val, node->left, node, ret);
 			}
 			else if (_key_comp(node->value.first, val.first)) {
-				node->right = _insert(val, node->right, node);
+				node->right = _insert(val, node->right, node, ret);
 			}
 			
 			node->height = 1 + ft::max(height(node->left), height(node->right));

@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:55:34 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/08 12:14:41 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/08 13:52:10 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ namespace	ft {
 				_node = _find_min(_node->right);
 			return *this;
 		};
+
 		ConstMapIterator operator++(int) {
 			ConstMapIterator iterator = *this;
 			++(*this);
@@ -93,7 +94,7 @@ namespace	ft {
 			return (this->_node->value);
 		};
 
-		pointer_type	operator->() {
+		pointer_type	operator->() const {
 			return &(this->_node->value);
 		};
 

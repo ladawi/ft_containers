@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:55:34 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/08 12:14:34 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/08 13:58:08 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ namespace	ft {
 			if (!_node->right && _node->parent && value_compare()(_node->value, _node->parent->value)) {
 				_node = _node->parent;
 			}
-			else if (!_node->right && _node->parent && value_compare()(_node->value, _node->parent->value)) {
+			else if (!_node->right && _node->parent && value_compare()(_node->parent->value, _node->value)) {
 				node_pointer	tmp = _node->parent;
 				while (value_compare()(tmp->value, _node->value) && tmp->parent) {
 					tmp = tmp->parent;
@@ -79,7 +79,7 @@ namespace	ft {
 				_node = tmp;
 			}
 			else {
-				_node = _find_max(_node->left);}
+				_node = _find_max(_node->left); }
 			return *this;
 		};
 		MapIterator operator--(int) {
@@ -93,7 +93,7 @@ namespace	ft {
 			return (this->_node->value);
 		};
 
-		pointer_type	operator->() {
+		pointer_type	operator->() const {
 			return &(this->_node->value);
 		};
 
