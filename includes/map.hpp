@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:11:05 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/07 19:09:17 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/08 12:14:06 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,28 @@ namespace ft {
 			typedef ft::node<value_type>						map_node;
 			typedef map_node*									node_pointer;
 
+			struct	val_comp {
+				val_comp(key_compare key_comp = key_compare()) : kc(key_comp) {};
+				bool	operator()(const value_type &first, const value_type &second) {
+					return (kc(first.first, second.first));
+				}
+				key_compare	kc;
+			};
 			
 			typedef	typename allocator_type::reference			reference;
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
 
-			typedef ft::MapIterator<value_type>					iterator;
-			typedef ft::ConstMapIterator<value_type>			const_iterator;
+			typedef ft::MapIterator<value_type, val_comp>					iterator;
+			typedef ft::ConstMapIterator<value_type, val_comp>			const_iterator;
 
 		public:
 
 			node_pointer	_head;
 			allocator_type	_alloc;
 			key_compare		_key_comp;
+			node_pointer	_ghost;
 
 		private:
 
@@ -75,7 +83,15 @@ namespace ft {
 			const allocator_type& alloc = allocator_type()) : _head(0), _alloc(alloc), _key_comp(comp)
 		{
 			// key_compare(_head->value.first, _head->value.second);
-		
+			_ghost = new map_node();
+			_ghost->height = 0;
+			// std::cout << "_-_-_-_-_-_" << std::endl;
+			// std::cout << "p : " << _ghost->parent <<std::endl;
+			// std::cout << "r : " << _ghost->right <<std::endl;
+			// std::cout << "l : " << _ghost->left <<std::endl;
+			// std::cout << "l : " << _ghost->height <<std::endl;
+			// std::cout << "_-_-_-_-_-_" << std::endl;
+			_head = _ghost;
 		};
 		// map (const key_compare& kc, const allocator_type& alloc);
 		// map< Key, T>();
@@ -103,17 +119,11 @@ namespace ft {
 		}
 
 		iterator	end() {
-			node_pointer	tmp = _head;
-			while(tmp && tmp->right)
-				tmp = tmp->right;
-			return (tmp);
+			return (_ghost);
 		}
 
 		const_iterator	end() const {
-			node_pointer	tmp = _head;
-			while(tmp && tmp->right)
-				tmp = tmp->right;
-			return (tmp);
+			return (_ghost);
 		}
 
 	/*
@@ -158,13 +168,12 @@ namespace ft {
 
 		void printTree(node_pointer root, Trunk *prev, bool isLeft)
 		{
-			if (root == NULL) {
+			if (root == NULL || root == _ghost) {
 				return;
 			}
 
 			std::string prev_str = "    ";
 			Trunk *trunk = new Trunk(prev, prev_str);
-
 			printTree(root->right, trunk, true);
 
 			if (!prev) {
@@ -187,7 +196,6 @@ namespace ft {
 				prev->str = prev_str;
 			}
 			trunk->str = "   |";
-
 			printTree(root->left, trunk, false);
 		}
 	/*
@@ -195,8 +203,9 @@ namespace ft {
 	*/
 
 		pair<iterator, bool> insert (const value_type& val) {
-
+			_disable_ghost();
 			_head = _insert(val, _head, NULL);
+			_set_ghost();
 			return (ft::pair<iterator, int>(NULL,1));
 		};
 	/*
@@ -213,7 +222,7 @@ namespace ft {
 	private:
 
 		node_pointer	_insert(const value_type& val, node_pointer node, node_pointer parent) {
-			if (!node)
+			if (!node || node == _ghost)
 			{
 				// add node
 				node = new map_node(val);
@@ -307,9 +316,33 @@ namespace ft {
 		};
 
 		size_type	_getsize(node_pointer node) const {
-			if (!node)
+			if (!node || node == _ghost)
 				return (0);
 			return(1 + _getsize(node->left) + _getsize(node->right));
+		}
+
+		void		_disable_ghost() {
+			if (_head == _ghost) {
+				_head = NULL;
+			}
+			_ghost->left = NULL;
+			_ghost->right = NULL;
+			if (_ghost->parent)
+				_ghost->parent->right = NULL;
+			_ghost->parent = NULL;
+		}
+
+		void		_set_ghost() {
+			node_pointer	tmp = _head;
+
+			if (!tmp)
+				return;
+			while (tmp->right)
+				tmp = tmp->right;
+			tmp->right = _ghost;
+			_ghost->left = tmp;
+			_ghost->parent = tmp;
+			_ghost->right = tmp;
 		}
 };
 
