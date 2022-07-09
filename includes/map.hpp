@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:11:05 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/08 14:20:37 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/09 18:18:20 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MAP_HPP
 
 # include "MapIterator.hpp"
+# include "CoreMapIterator.hpp"
 # include "ConstMapIterator.hpp"
 # include "Ft_iterators.hpp"
 # include "sfinae_template.hpp"
@@ -46,12 +47,18 @@ namespace ft {
 			typedef ft::node<value_type>						map_node;
 			typedef map_node*									node_pointer;
 
-			struct	val_comp {
-				val_comp(key_compare key_comp = key_compare()) : kc(key_comp) {};
-				bool	operator()(const value_type &first, const value_type &second) {
-					return (kc(first.first, second.first));
-				}
-				key_compare	kc;
+
+			class	value_compare {
+				public:
+					Compare comp;
+					value_compare (Compare c = key_compare()) : comp(c) {}  // constructed with map's comparison object
+					typedef bool result_type;
+					typedef value_type first_argument_type;
+					typedef value_type second_argument_type;
+					bool operator() (const value_type& x, const value_type& y) const
+					{
+						return comp(x.first, y.first);
+					}
 			};
 			
 			typedef	typename allocator_type::reference			reference;
@@ -59,19 +66,21 @@ namespace ft {
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
 
-			typedef ft::MapIterator<value_type, val_comp>					iterator;
-			typedef ft::ConstMapIterator<value_type, val_comp>			const_iterator;
-
-		public:
-
-			node_pointer	_head;
-			allocator_type	_alloc;
-			key_compare		_key_comp;
-			node_pointer	_ghost;
+			typedef ft::MapIterator<value_type, value_compare>		iterator;
+			typedef ft::ConstMapIterator<value_type, value_compare>	const_iterator;
 
 		private:
 
-		typedef typename allocator_type::template rebind<map_node>::other		_node_allocator;
+			typedef typename allocator_type::template rebind<map_node>::other	map_node_allocator;
+			typedef typename allocator_type::template rebind<value_type>::other	value_type_alloc;
+
+		public:
+
+			node_pointer		_head;
+			allocator_type		_alloc;
+			key_compare			_key_comp;
+			node_pointer		_ghost;
+			map_node_allocator	_map_node_alloc;
 
 		public:
 
@@ -82,7 +91,9 @@ namespace ft {
 		explicit map (const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) : _head(0), _alloc(alloc), _key_comp(comp)
 		{
-			_ghost = new map_node();
+			// _ghost = new map_node();
+			_ghost = _map_node_alloc.allocate(1);
+			_map_node_alloc.construct(_ghost, value_type());
 			_ghost->height = 0;
 			_head = _ghost;
 		};
@@ -91,13 +102,16 @@ namespace ft {
 		map (InputIterator first, typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type last, const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type()) : _head(0), _alloc(alloc), _key_comp(comp)
 		{
-			_ghost = new map_node();
-			_ghost->height = 0;
-			while (first != last)
-			{
-				insert(*first);
-				++(first);
-			}
+			// _ghost = new map_node();
+			_ghost = _map_node_alloc.allocate(1);
+			_map_node_alloc.construct(_ghost, value_type());
+			// _ghost->height = 0;
+			insert(first, last);
+			// while (first != last)
+			// {
+			// 	insert(*first);
+			// 	++(first);
+			// }
 		};
 		map (const map& x) {
 			_ghost = x._ghost;
@@ -147,7 +161,7 @@ namespace ft {
 
 		size_type	size() const { return (_getsize(_head)); };
 
-		size_type	max_size() const { return _node_allocator().max_size(); };
+		size_type	max_size() const { return map_node_allocator().max_size(); };
 	/*
 		============================ Element access ============================
 	*/
@@ -221,13 +235,38 @@ namespace ft {
 			_set_ghost();
 			return (ret);
 		};
-		// template <class InputIterator>
-		// void insert (InputIterator first, InputIterator last) {
-			
-		// };
+
+		void clear() {
+			_disable_ghost();
+			_clear(_head);
+			_set_ghost();
+		};
+		template <class InputIterator>
+		void	insert (InputIterator first, InputIterator last) {
+			pair<iterator, bool> ret;
+
+			_disable_ghost();
+			while (first != last) {
+				std::cout << "Seg 1 -> " << (*first).first << std::endl;
+				// _head = _insert(*first, _head, NULL, ret);
+				++(first);
+			}
+			_set_ghost();
+		};
 	/*
 		=============================== Overload ===============================
 	*/
+		mapped_type& operator[] (const key_type& k) {
+			return ((*((this->insert(make_pair(k, mapped_type()))).first)).second);
+		};
+	/*
+		============================== Observers ===============================
+	*/
+
+		key_compare key_comp() const {
+			return (_key_comp);
+		}
+		value_compare value_comp() const { return value_compare(); };
 
 	/*
 		============================== Operations ==============================
@@ -283,11 +322,13 @@ namespace ft {
 	*/
 	private:
 
-		node_pointer	_insert(const value_type& val, node_pointer node, node_pointer parent, pair<iterator,bool> ret) {
+		node_pointer	_insert(const value_type& val, node_pointer node, node_pointer parent, pair<iterator,bool> &ret) {
 			if (!node || node == _ghost)
 			{
 				// add node
-				node = new map_node(val);
+				// node = new map_node(val);
+				node = _map_node_alloc.allocate(1);
+				_map_node_alloc.construct(node, val);
 				node->parent = parent;
 				ret = ft::pair<iterator, bool>(node, true);
 				return (node);
@@ -305,7 +346,6 @@ namespace ft {
 			
 			node->height = 1 + ft::max(height(node->left), height(node->right));
 			int balanceFactor = getBalanceFactor(node);
-			// std::cout << "d=8" << std::endl;
 			if (balanceFactor < -1 && _key_comp(node->right->value.first, val.first))
 			{
 				return(_left_rotate(node));
@@ -405,6 +445,23 @@ namespace ft {
 			_ghost->left = tmp;
 			_ghost->parent = tmp;
 			_ghost->right = tmp;
+		}
+
+		node_pointer	_destroy_node(node_pointer node, node_pointer ret = NULL) {
+			if (ret) {
+				ret->parent = node->parent;
+			}
+			_map_node_alloc.destroy(node);
+			_map_node_alloc.deallocate(node, 1);
+			return (ret);
+		}
+
+		node_pointer	_clear(node_pointer node) {
+			if (node == NULL || node == _ghost)
+				return NULL;
+			node->left = _clear(node->left);
+			node->right = _clear(node->right);
+			return (_destroy_node(node));
 		}
 };
 

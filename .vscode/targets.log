@@ -1,0 +1,503 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.2.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2016 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Sat Jul  9 14:38:33 2022
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# environment
+DESKTOP_SESSION = ubuntu
+# default
+.SHELLFLAGS := -c
+# makefile (from 'Makefile', line 27)
+OBJ = $(addprefix $(OBJ_PATH)/, $(FILES:%.cpp=%.o))
+# environment
+XDG_SESSION_CLASS = user
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from 'Makefile', line 33)
+INCLUDES = $(INC)
+# automatic
+ 
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+XAUTHORITY = /mnt/nfs/homes/ladawi/.Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=ibus
+# makefile
+CURDIR := /mnt/nfs/homes/ladawi/Desktop/ladawi/ft_containers
+# makefile
+SHELL = /bin/sh
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+_ = /usr/share/code/code
+# environment
+JOURNAL_STREAM = 9:387149
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST :=  Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
+# environment
+XDG_DATA_DIRS = /usr/share/gnome:/usr/share/ubuntu:/mnt/nfs/homes/ladawi/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+# makefile (from 'Makefile', line 29)
+INC_F = Vector.hpp VectorIterators.hpp RandomAccessIterator.hpp ConstVectorIterators.hpp Ft_iterators.hpp ft_utils.hpp stack.hpp map.hpp node.hpp MapIterator.hpp CoreMapIterator.hpp ConstMapIterator.hpp
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/31337/bus
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+MANAGERPID = 67073
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/31337/vscode-ipc-fcd715a0-a6f9-45be-81c1-a569b0e5378e.sock
+# environment
+VSCODE_CWD = /mnt/nfs/homes/ladawi
+# environment
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session3
+# environment
+KRB5CCNAME = FILE:/tmp/krb5cc_31337_epQWd2
+# default
+MAKE_HOST := x86_64-pc-linux-gnu
+# environment
+PATH = /mnt/nfs/homes/ladawi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# makefile (from 'Makefile', line 43)
+BOLD = \033[1m
+# environment
+GPG_AGENT_INFO = /run/user/31337/gnupg/S.gpg-agent:0:1
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# environment
+SESSION_MANAGER = local/e1r11p1.42.fr:@/tmp/.ICE-unix/67585,unix/e1r11p1.42.fr:/tmp/.ICE-unix/67585
+# environment
+XDG_RUNTIME_DIR = /run/user/31337
+# makefile (from 'Makefile', line 37)
+END = \033[0m
+# makefile (from 'Makefile', line 23)
+SRC_PATH = $(shell find srcs -type d)
+# environment
+XDG_MENU_PREFIX = gnome-
+# environment
+VSCODE_LOG_STACK = false
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+INVOCATION_ID = 6e86b2f37ecb4dc6a44dfb3255631d60
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/ladawi
+# environment
+LS_COLORS = 
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+SSH_AUTH_SOCK = /run/user/31337/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 68639
+# automatic
+%F = $(notdir $%)
+# environment
+DISPLAY = :0
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+PWD = /mnt/nfs/homes/ladawi/Desktop/ladawi/ft_containers
+# makefile (from 'Makefile', line 35)
+INC_FLAGS = -I $(INC_DIR)
+# default
+.LOADED := 
+# environment
+SSH_AGENT_PID = 67548
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
+# makefile (from 'Makefile', line 42)
+BLU = \033[0;34m
+# makefile (from 'Makefile', line 31)
+INC_DIR = includes
+# environment
+GTK_MODULES = gail:atk-bridge
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+HOME = /mnt/nfs/homes/ladawi
+# environment
+VSCODE_CODE_CACHE_PATH = /mnt/nfs/homes/ladawi/.config/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
+# environment
+LOGNAME = ladawi
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+ZSH = /mnt/nfs/homes/ladawi/.oh-my-zsh
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# environment
+QT_IM_MODULE = ibus
+# environment
+SHLVL = 1
+# makefile (from 'Makefile', line 14)
+CC = c++
+# environment
+IM_CONFIG_PHASE = 1
+# default
+MAKE_VERSION := 4.2.1
+# environment
+USER = ladawi
+# makefile
+.DEFAULT_GOAL := all
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# environment
+LIBVIRT_DEFAULT_URI = qemu:///system
+# environment
+LESS = -R
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# default
+MAKE_COMMAND := make
+# makefile (from 'Makefile', line 32)
+INC = $(addprefix $(INC_DIR)/, $(INC_F))
+# environment
+OLDPWD = /mnt/nfs/homes/ladawi
+# default
+.VARIABLES := 
+# automatic
+*F = $(notdir $*)
+# environment
+XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
+# environment
+VSCODE_IPC_HOOK = /run/user/31337/vscode-29e6d9c0-1.68.1-main.sock
+# makefile (from 'Makefile', line 38)
+RED = \033[0;91m
+# makefile
+MAKEFLAGS = pqrR
+# environment
+MFLAGS = -pqrR
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+GDK_BACKEND = x11
+# automatic
++F = $(notdir $+)
+# environment
+QT_ACCESSIBILITY = 1
+# environment
+DEFAULTS_PATH = /usr/share/gconf/ubuntu.default.path
+# 'override' directive
+.SHELLSTATUS := 0
+# default
+MAKEFILES := 
+# automatic
+<F = $(notdir $<)
+# environment
+PAGER = less
+# environment
+LC_ALL = C
+# makefile (from 'Makefile', line 39)
+YEL = \033[93m
+# makefile (from 'Makefile', line 26)
+OBJ_PATH = objs
+# environment
+GJS_DEBUG_TOPICS = JS ERROR;JS LOG
+# automatic
+^F = $(notdir $^)
+# default
+SUFFIXES := 
+# makefile (from 'Makefile', line 40)
+GRE = \033[0;92m
+# makefile (from 'Makefile', line 41)
+PUR = \033[0;95m
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+GJS_DEBUG_OUTPUT = stderr
+# makefile (from 'Makefile', line 13)
+NAME = a.out
+# default
+.RECIPEPREFIX := 
+# environment
+LANG = C
+# environment
+DOCKER_HOST = unix:///run/user/31337/docker.sock
+# environment
+VSCODE_PID = 68639
+# makefile (from 'Makefile', line 19)
+FILES = main.cpp Vector.cpp 
+# variable set hash-table stats:
+# Load=124/1024=12%, Rehash=0, Collisions=27/178=15%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 59, inode 50993852): 10 files, no impossibilities.
+# includes (device 59, inode 50989161): No files, no impossibilities so far.
+# srcs (device 59, inode 140707115): 4 files, no impossibilities so far.
+
+# 14 files, no impossibilities in 3 directories.
+
+# Implicit Rules
+
+objs/%.o: %.cpp includes/Vector.hpp includes/VectorIterators.hpp includes/RandomAccessIterator.hpp includes/ConstVectorIterators.hpp includes/Ft_iterators.hpp includes/ft_utils.hpp includes/stack.hpp includes/map.hpp includes/node.hpp includes/MapIterator.hpp includes/CoreMapIterator.hpp includes/ConstMapIterator.hpp
+#  recipe to execute (from 'Makefile', line 57):
+	@$(CC) $(CFLAGS) $(HEAD) -c -o $@ $(INC_FLAGS) $<
+	@echo "$(GRE)$@$(END)"
+
+# 1 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+# Not a target:
+includes/Ft_iterators.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-07 13:10:32.364663816
+#  File has been updated.
+#  Successfully updated.
+
+objs/main.o: srcs/main.cpp includes/Vector.hpp includes/VectorIterators.hpp includes/RandomAccessIterator.hpp includes/ConstVectorIterators.hpp includes/Ft_iterators.hpp includes/ft_utils.hpp includes/stack.hpp includes/map.hpp includes/node.hpp includes/MapIterator.hpp includes/CoreMapIterator.hpp includes/ConstMapIterator.hpp
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: 'main'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := objs/main.o
+# automatic
+# % := 
+# automatic
+# * := main
+# automatic
+# + := srcs/main.cpp includes/Vector.hpp includes/VectorIterators.hpp includes/RandomAccessIterator.hpp includes/ConstVectorIterators.hpp includes/Ft_iterators.hpp includes/ft_utils.hpp includes/stack.hpp includes/map.hpp includes/node.hpp includes/MapIterator.hpp includes/CoreMapIterator.hpp includes/ConstMapIterator.hpp
+# automatic
+# | := 
+# automatic
+# < := srcs/main.cpp
+# automatic
+ 
+# ^ := srcs/main.cpp includes/Vector.hpp includes/VectorIterators.hpp includes/RandomAccessIterator.hpp includes/ConstVectorIterators.hpp includes/Ft_iterators.hpp includes/ft_utils.hpp includes/stack.hpp includes/map.hpp includes/node.hpp includes/MapIterator.hpp includes/CoreMapIterator.hpp includes/ConstMapIterator.hpp
+# automatic
+# ? := srcs/main.cpp includes/Vector.hpp includes/VectorIterators.hpp includes/RandomAccessIterator.hpp includes/ConstVectorIterators.hpp includes/Ft_iterators.hpp includes/ft_utils.hpp includes/stack.hpp includes/map.hpp includes/node.hpp includes/MapIterator.hpp includes/CoreMapIterator.hpp includes/ConstMapIterator.hpp
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/21=10%
+#  recipe to execute (from 'Makefile', line 57):
+	@$(CC) $(CFLAGS) $(HEAD) -c -o $@ $(INC_FLAGS) $<
+	@echo "$(GRE)$@$(END)"
+
+# Not a target:
+includes/MapIterator.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-09 14:37:08.036876384
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+includes/map.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-09 14:36:26.150914716
+#  File has been updated.
+#  Successfully updated.
+
+all: a.out
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/10=0%
+
+# Not a target:
+includes/Vector.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-07 13:37:32.123881035
+#  File has been updated.
+#  Successfully updated.
+
+print:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 61):
+	@echo $(OBJ)
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-09 14:38:25.897805132
+#  File has been updated.
+#  Successfully updated.
+
+objs:
+#  Implicit rule search has not been done.
+#  Last modified 2022-07-09 14:38:27.760803427
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 54):
+	mkdir -p $(OBJ_PATH)
+
+# Not a target:
+includes/ConstMapIterator.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-09 14:38:01.346827599
+#  File has been updated.
+#  Successfully updated.
+
+a.out: objs includes/Vector.hpp includes/VectorIterators.hpp includes/RandomAccessIterator.hpp includes/ConstVectorIterators.hpp includes/Ft_iterators.hpp includes/ft_utils.hpp includes/stack.hpp includes/map.hpp includes/node.hpp includes/MapIterator.hpp includes/CoreMapIterator.hpp includes/ConstMapIterator.hpp objs/main.o objs/Vector.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/10=0%
+#  recipe to execute (from 'Makefile', line 49):
+	@echo "$(YEL)Made $(NAME)$(END)"
+	@echo "$(PUR)Compiling$(END)"
+	@$(CC) $(CFLAGS) $(INC_FLAGS) $(OBJ) -o ${NAME}
+
+# Not a target:
+includes/VectorIterators.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-25 11:21:00.486705585
+#  File has been updated.
+#  Successfully updated.
+
+fclean: clean
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 68):
+	@rm -rf $(NAME)
+	@rm -rf $(OBJ_PATH)
+	@echo "$(RED)$(BOLD)Removed $(NAME) $(END)"
+
+# Not a target:
+srcs/main.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-09 14:31:21.211205547
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+includes/node.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-08 12:34:02.924445385
+#  File has been updated.
+#  Successfully updated.
+
+re: fclean all
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 64):
+	@rm -rf $(OBJ)
+	@echo "$(RED)$(BOLD)Removed *.o in $(OBJ_PATH)$(END)"
+
+# Not a target:
+includes/CoreMapIterator.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-09 14:35:54.601943587
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+includes/ConstVectorIterators.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-24 10:05:54.213997371
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+objs/Vector.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+includes/stack.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-07 13:21:51.174910795
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+includes/RandomAccessIterator.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-24 11:11:00.185322846
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+includes/ft_utils.hpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-07 15:18:04.470328364
+#  File has been updated.
+#  Successfully updated.
+
+# files hash-table stats:
+# Load=25/1024=2%, Rehash=0, Collisions=4/90=4%
+# VPATH Search Paths
+
+vpath %.cpp srcs
+
+# 1 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 40 / storage = 543 B / avg = 13 B
+# current buf: size = 8162 B / used = 543 B / count = 40 / avg = 13 B
+
+# strcache performance: lookups = 103 / hit rate = 61%
+# hash-table stats:
+# Load=40/8192=0%, Rehash=0, Collisions=2/103=2%
+# Finished Make data base on Sat Jul  9 14:38:33 2022
+
+ 

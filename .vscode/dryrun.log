@@ -1,0 +1,13 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/mnt/nfs/homes/ladawi/Desktop/ladawi/ft_containers'
+ 
+c++   -c -o objs/main.o -I includes srcs/main.cpp
+echo "\033[0;92mobjs/main.o\033[0m"
+ 
+c++   -c -o objs/Vector.o -I includes srcs/Vector.cpp
+echo "\033[0;92mobjs/Vector.o\033[0m"
+echo "\033[93mMade a.out\033[0m"
+echo "\033[0;95mCompiling\033[0m"
+c++  -I includes objs/main.o objs/Vector.o -o a.out
+make: Leaving directory '/mnt/nfs/homes/ladawi/Desktop/ladawi/ft_containers'
+ 

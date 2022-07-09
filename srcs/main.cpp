@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/08 14:01:35 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/09 17:57:35 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,20 @@ int	main()
 	mymap.printTree(mymap._head, NULL, 1);
 	std::cout << "===================" << std::endl;
 
-	const auto it = second.begin();
+	auto it = second.begin();
 
-	for(const auto it : second){
+	for(auto it : second){
 		std::cout << "Test 1: " << (it).first << std::endl;
 	}
 
 	std::cout << "------" << std::endl;
 
-	for(const auto it2 : mymap) {
+	for(auto it2 : mymap) {
 		std::cout << "Test 2: " << (it2).first << std::endl;
 	}
 	std::cout << "------" << std::endl;
 
-	const auto ite = mymap.end();
+	auto ite = mymap.end();
 	std::cout << "Frog -> " << (second.equal_range('z')).second->first << std::endl;
 	std::cout << "Frog -> " << (mymap.equal_range('z')).second->first << std::endl;
 
