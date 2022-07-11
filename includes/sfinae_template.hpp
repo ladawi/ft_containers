@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 08:09:34 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/05 16:29:54 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/11 11:31:31 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ namespace ft {
 	struct enable_if {};
 
 	template <class T>
-	struct enable_if<true, T> { typedef T type; };
+	struct enable_if<true, T> {
+		typedef T type;
+	};
 
 	template <typename T, typename U>
 	struct	is_same { static const bool value = false; };

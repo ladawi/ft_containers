@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:55:34 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/09 16:39:12 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/11 14:51:36 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ namespace	ft {
 		typedef node&							node_reference;
 
 		typedef Comp							value_compare;
-
-	protected:
 
 		node_pointer	_node;
 

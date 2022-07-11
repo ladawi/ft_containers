@@ -310,19 +310,19 @@ namespace ft {
 		}
 
 		bool	operator<(const vector &rhs) const {
-			return(std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
+			return(ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
 		}
 
 		bool	operator>(const vector &rhs) const {
-			return (!(std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())) && this->operator!=(rhs));
+			return (!(ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())) && this->operator!=(rhs));
 		}
 
 		bool	operator>=(const vector &rhs) const {
-			return (!(std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())));
+			return (!(ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())));
 		}
 
 		bool	operator<=(const vector &rhs) const {
-			return ((std::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())) || this->operator==(rhs));
+			return ((ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())) || this->operator==(rhs));
 		}
 
 	/*

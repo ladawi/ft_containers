@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 10:14:38 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/28 14:07:35 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/11 16:45:48 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ namespace ft {
 
 		Iterator base(void) const { return this->_it; };
 
-		reference_type operator*(void) { return ((--Iterator(this->_it)).operator*()); }
-		pointer_type operator->(void) { return &this->operator*(); }
+		reference_type operator*(void) const { return ((--Iterator(this->_it)).operator*()); }
+		pointer_type operator->(void) const { return &this->operator*(); }
 
 		reference_type	operator[](difference_type index) const { return *this->operator+(index); }
 		

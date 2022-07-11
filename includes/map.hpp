@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:11:05 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/09 18:18:20 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/11 16:59:25 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "sfinae_template.hpp"
 # include "RevIterator.hpp"
 # include "Pair.hpp"
+# include "Vector.hpp"
 # include "stdexcept"
 # include "ft_utils.hpp"
 # include "node.hpp"
@@ -68,13 +69,15 @@ namespace ft {
 
 			typedef ft::MapIterator<value_type, value_compare>		iterator;
 			typedef ft::ConstMapIterator<value_type, value_compare>	const_iterator;
+			typedef ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 
 		private:
 
 			typedef typename allocator_type::template rebind<map_node>::other	map_node_allocator;
 			typedef typename allocator_type::template rebind<value_type>::other	value_type_alloc;
 
-		public:
+		private:
 
 			node_pointer		_head;
 			allocator_type		_alloc;
@@ -107,18 +110,30 @@ namespace ft {
 			_map_node_alloc.construct(_ghost, value_type());
 			// _ghost->height = 0;
 			insert(first, last);
-			// while (first != last)
-			// {
-			// 	insert(*first);
-			// 	++(first);
-			// }
+			while (first != last)
+			{
+				insert(*first);
+				++(first);
+			}
 		};
 		map (const map& x) {
-			_ghost = x._ghost;
-			_head = x._head;
-			_alloc = x._alloc;
 			_key_comp = x._key_comp;
+			_alloc = x._alloc;
+			_map_node_alloc = map_node_allocator();
+			_head = _copy(x._head, NULL);
+			_ghost = _map_node_alloc.allocate(1);
+			_map_node_alloc.construct(_ghost, value_type());
 			_set_ghost();
+		};
+
+		map& operator= (const map& x) {
+			if (&x == this)
+				return (*this);
+
+			clear();
+			if (x._head != x._ghost)
+				insert(x.begin(), x.end());
+			return (*this);
 		};
 
 		~map() {
@@ -132,13 +147,17 @@ namespace ft {
 
 		iterator	begin() {
 			node_pointer	tmp = _head;
-			while(tmp && tmp->left)
+			if (!_head)
+				return(end());
+			while (tmp && tmp->left)
 				tmp = tmp->left;
 			return (tmp);
 		}
 
 		const_iterator	begin() const {
 			node_pointer	tmp = _head;
+			if (!_head)
+				return(end());
 			while(tmp && tmp->left)
 				tmp = tmp->left;
 			return (tmp);
@@ -152,11 +171,19 @@ namespace ft {
 			return (_ghost);
 		}
 
+		iterator	rbegin() {
+			return (end());
+		}
+
+		iterator	rend() {
+			return (begin());
+		}
+
 	/*
 		=============================== Capacity ===============================
 	*/
 		bool empty() const {
-			return(_head == 0 ? 1 : 0);
+			return(_head == _ghost ? 1 : 0);
 		};
 
 		size_type	size() const { return (_getsize(_head)); };
@@ -236,29 +263,122 @@ namespace ft {
 			return (ret);
 		};
 
-		void clear() {
+		iterator insert (iterator , const value_type& val) {
+			pair<iterator, bool> ret;
+
 			_disable_ghost();
-			_clear(_head);
+			_head = _insert(val, _head, NULL, ret);
 			_set_ghost();
+			return (ret.first);
 		};
+
 		template <class InputIterator>
-		void	insert (InputIterator first, InputIterator last) {
+		void	insert (InputIterator first, typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type last) {
 			pair<iterator, bool> ret;
 
 			_disable_ghost();
 			while (first != last) {
-				std::cout << "Seg 1 -> " << (*first).first << std::endl;
-				// _head = _insert(*first, _head, NULL, ret);
+				_head = _insert(*first, _head, NULL, ret);
 				++(first);
 			}
 			_set_ghost();
 		};
+
+		void clear() {
+			_disable_ghost();
+			_clear(_head);
+			_head = _ghost;
+		};
+
+		void	erase (iterator position) {
+			if (position._node == _ghost)
+				return;
+			_disable_ghost();
+			_head = _erase(_head, position._node->value.first);
+			_set_ghost();
+		};
+
+		size_type erase (const key_type& k) {
+			size_type size = this->size();
+
+			_disable_ghost();
+			_head = _erase(_head, k);
+			_set_ghost();
+			return (size - this->size());
+		};
+
+		void	erase (iterator first, iterator last) {
+			ft::vector<key_type>tmp;
+
+			while (first != last) {
+				tmp.push_back(first->first);
+				++first;
+			}
+
+			for (typename ft::vector<key_type>::iterator it = tmp.begin(); it != tmp.end(); ++it) {
+				erase(*it);
+			}
+		};
+
+		void swap (map& x) {
+			node_pointer		tmp_head = this->_head;
+			allocator_type		tmp_alloc = this->_alloc;
+			key_compare			tmp_key_comp = this->_key_comp;
+			node_pointer		tmp_ghost = this->_ghost;
+			map_node_allocator	tmp_map_node_alloc = this->_map_node_alloc;
+
+			this->_head = x._head;
+			this->_alloc = x._alloc;
+			this->_key_comp = x._key_comp;
+			this->_ghost = x._ghost;
+			this->_map_node_alloc = x._map_node_alloc;
+
+			x._head = tmp_head;
+			x._alloc = tmp_alloc;
+			x._key_comp = tmp_key_comp;
+			x._ghost = tmp_ghost;
+			x._map_node_alloc = tmp_map_node_alloc;
+			};
+
 	/*
 		=============================== Overload ===============================
 	*/
 		mapped_type& operator[] (const key_type& k) {
-			return ((*((this->insert(make_pair(k, mapped_type()))).first)).second);
+			return ((*((this->insert(ft::make_pair(k, mapped_type()))).first)).second);
 		};
+
+		bool operator==( const map& rhs ) const {
+			const_iterator ite = rhs.begin();
+			if (this->size() != rhs.size())
+				return (0);
+			for (const_iterator it = this->begin(); it != this->end(); it++)
+			{
+				if (*it != *ite)
+					return (0);
+				ite++;
+			}
+			return (1);
+		};
+
+		bool operator!=( const map& rhs ) const {
+			return (!(*this == rhs));
+		};
+
+		bool operator<(const map& rhs) const {
+			return(ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()));
+		}
+
+		bool operator>(const map& rhs) const {
+			return (!(ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end())) && this->operator!=(rhs));
+		}
+		bool operator>=(const map& rhs) const {
+			return (!(*this < rhs));
+		}
+
+		bool operator<=(const map& rhs) const {
+			return(ft::lexicographical_compare(this->begin(), this->end(), rhs.begin(), rhs.end()) || this->operator==(rhs));
+		}
+
 	/*
 		============================== Observers ===============================
 	*/
@@ -317,6 +437,41 @@ namespace ft {
 			return (ft::make_pair(it, ite));
 		};
 
+		iterator find (const key_type& k) {
+			iterator it = begin();
+
+			while (it != end()) {
+				if (!_key_comp((*it).first, k) && !_key_comp(k, (*it).first))
+					return (it);
+				it++;
+			}
+			return (it);
+		};
+
+		const_iterator find (const key_type& k) const {
+			const_iterator it = begin();
+
+			while (it != end()) {
+				if (!_key_comp((*it).first, k) && !_key_comp(k, (*it).first))
+					return (it);
+				it++;
+			}
+			return (it);
+		};
+
+		size_type count (const key_type& k) const {
+			const_iterator it = begin();
+			size_type	count = 0;
+
+			while (it != end()) {
+				if (!_key_comp((*it).first, k) && !_key_comp(k, (*it).first))
+					count++;
+				it++;
+			}
+			return (count);
+		};
+
+
 	/*
 		============================ Private method ============================
 	*/
@@ -355,11 +510,11 @@ namespace ft {
 				node->right = _right_rotate(node->right);
 				return (_left_rotate(node));
 			}
-			if (balanceFactor > 1 && _key_comp(val.first, node->right->value.first))
+			if (balanceFactor > 1 && _key_comp(val.first, node->left->value.first))
 			{
 				return(_right_rotate(node));
 			}
-			if (balanceFactor > 1 && _key_comp(node->right->value.first, val.first))
+			if (balanceFactor > 1 && _key_comp(node->left->value.first, val.first))
 			{
 				node->left = _left_rotate(node->left);
 				return (_right_rotate(node));
@@ -436,7 +591,6 @@ namespace ft {
 
 		void		_set_ghost() {
 			node_pointer	tmp = _head;
-
 			if (!tmp)
 				return;
 			while (tmp->right)
@@ -463,7 +617,78 @@ namespace ft {
 			node->right = _clear(node->right);
 			return (_destroy_node(node));
 		}
+
+		node_pointer	_copy(node_pointer node, node_pointer parent) {
+			node_pointer	tmp = NULL;
+
+			if (node && ((!node->left && !node->right) || node->left != node->right))
+			{
+				tmp = _map_node_alloc.allocate(1);
+				_map_node_alloc.construct(tmp, node->value);
+				tmp->parent = parent;
+
+				tmp->left = _copy(node->left, tmp);
+				tmp->right = _copy(node->right, tmp);
+			}
+			return (tmp);
+		}
+
+		node_pointer	_find_max(node_pointer node) {
+			if (!node || (node->parent == node->right))
+				return (node);
+			while (node->right)
+				node = node->right;
+			return (node);
+		}
+
+		node_pointer	_erase(node_pointer	node, const key_type& val) {
+			if (!node)
+				return NULL;
+			if (_key_comp(val, node->value.first)) {
+				node->left = _erase(node->left, val);
+			}
+			else if (_key_comp(node->value.first, val)) {
+				node->right = _erase(node->right, val);
+			}
+			else {
+
+				if (node->left && node->right) {
+					node_pointer	max = _find_max(node->left);
+					value_type_alloc().destroy(&node->value);
+					value_type_alloc().construct(&node->value, max->value);
+					node->left = _erase(node->left, max->value.first);
+				}
+				else if (!node->left && node->right) {
+					return (_destroy_node(node, node->right));
+				}
+				else if (node->left && !node->right) {
+					return (_destroy_node(node, node->left));
+				}
+				else {
+					return (_destroy_node(node));
+				}
+			}
+			node->height = 1 + ft::max(height(node->left), height(node->right));
+			int balanceFactor = getBalanceFactor(node);
+
+			if (balanceFactor > 1 && getBalanceFactor(node->left) < 0) {
+				node->left = _left_rotate(node->left);
+				return (_right_rotate(node));
+			}
+			if (balanceFactor > 1 && getBalanceFactor(node->left) >= 0)
+				return (_right_rotate(node));
+			if (balanceFactor < -1 && getBalanceFactor(node->right) <= 0)
+				return (_left_rotate(node));
+			if (balanceFactor < -1 && getBalanceFactor(node->right) < 0) {
+				node->right = _right_rotate(node->right);
+				return (_left_rotate(node));
+			}
+			return node;
+		}
+
 };
+
+
 
 }
 
