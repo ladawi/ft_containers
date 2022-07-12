@@ -15,21 +15,22 @@
 namespace ft {
 
 
-	template<class T, class allocator_type = std::allocator<T> >
+	template<class T, class Alloc = std::allocator<T> >
 	class	vector
 	{
 
 		public:
-			typedef size_t									size_type;
-			typedef T										value_type;
-			typedef std::ptrdiff_t							difference_type;
+			typedef size_t										size_type;
+			typedef T											value_type;
+			typedef Alloc											allocator_type;
+			typedef std::ptrdiff_t								difference_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
-			typedef typename allocator_type::pointer		pointer;
-			typedef ft::vectorIterator<T>					iterator;
-			typedef ft::constVectorIterator<T>				const_iterator;
-			typedef ft::reverse_iterator<iterator>			reverse_iterator;
-			typedef ft::reverse_iterator<const_iterator>	const_reverse_iterator;
+			typedef typename allocator_type::pointer			pointer;
+			typedef ft::vectorIterator<T>						iterator;
+			typedef ft::constVectorIterator<T>					const_iterator;
+			typedef ft::reverse_iterator<iterator>				reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
 		private:
 
@@ -42,19 +43,22 @@ namespace ft {
 	/*
 		=========================== Member functions ===========================
 	*/
-		vector< T >() : _size(0), _capacity(0), _array(NULL) {};
+		explicit vector< T >(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _array(NULL), _alloc(alloc) {};
 
-		vector< T >(size_t n, const T& val = T()) : _size(n), _capacity(n), _array(new T[n]) {
-			for (size_t i = 0; i < n; i++)
+		explicit vector< T >(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _array(new T[n]), _alloc(alloc) {
+			for (size_type i = 0; i < n; i++)
 			{
 				_array[i] = val;
 			}
 		};
 
-		vector< T >( vector const &rhs ) : _size(rhs.size()), _capacity(rhs.capacity()), _array(new T[_capacity]) {
-			for (size_t i = 0; i < rhs.size(); i++) {
-				_array[i] = rhs._array[i];
-			}
+		// vector< T >( vector const &x ) : _size(x.size()), _capacity(x.size()), _array(new T[_capacity]) , _alloc(x._alloc) {
+		// 	for (size_t i = 0; i < x.size(); i++) {
+		// 		_array[i] = x._array[i];
+		// 	}
+		// };
+		vector< T >( vector const &x ) : _array(NULL), _size(0), _capacity(0), _alloc() {
+			*this = x;
 		};
 
 		~vector< T >() {
@@ -69,10 +73,12 @@ namespace ft {
 			// alloc = 0; // to remove
 		}
 
-		vector &		operator=( vector const & rhs ) {
-			assign(rhs.begin(), rhs.end());
+		vector &		operator=( vector const & x ) {
+			assign(x.begin(), x.end());
 			return *this;
 		};
+
+
 	/*
 		=============================== Iterator ===============================
 	*/
@@ -100,13 +106,16 @@ namespace ft {
 		void	resize(size_type n, value_type val = value_type()) {
 			if (_size > n)
 			{
-				while (_size > n)
-				{
-					erase(this->begin() + n, this->end());
-				}
+				erase(this->begin() + n, this->end());
 			}
 			else
 			{
+				if (_capacity < n) {
+					if (_size * 2 < n)
+						this->reserve(n);
+					else
+						this->reserve(_size * 2);
+				}
 				while (_size < n)
 					push_back(val);
 			}
@@ -115,8 +124,9 @@ namespace ft {
 		void	reserve (size_type n) {
 			if (n > _capacity)
 			{
+				if (n > this->max_size())
+					throw std::length_error("vector::reserve");
 				T *newarray = new T[n];
-				// std::cout << "Reserve called : " << _size << " capa = " << _array[0] << std::endl;
 				for (size_type i = 0; i < _size; i++)
 				{
 					newarray[i] = _array[i];
@@ -196,10 +206,10 @@ namespace ft {
 
 			if (this->_capacity < this->_size + n)
 			{
-				if (this->_capacity * 2 < this->_size + n)
+				if (this->_size * 2 < this->_size + n)
 					this->reserve(this->_size + n);
-				else
-					this->reserve(this->_capacity * 2 + !this->_capacity);
+				else {
+					this->reserve(this->_size * 2 + !this->_capacity); };
 			}
 			position = this->begin();
 			for (size_type i = 0; i < delta; i++)
@@ -223,10 +233,10 @@ namespace ft {
 			}
 			if (this->_capacity < this->_size + n)
 			{
-				if (this->_capacity * 2 < this->_size + n)
+				if (this->_size * 2 < this->_size + n)
 					this->reserve(this->_size + n);
 				else
-					this->reserve(this->_capacity * 2 + !this->_capacity);
+					this->reserve(this->_size * 2 + !this->_capacity);
 			}
 			position = this->begin();
 			for (size_type i = 0; i < delta; i++)
