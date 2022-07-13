@@ -32,37 +32,44 @@ namespace ft {
 			typedef ft::reverse_iterator<iterator>				reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 
+
 		private:
 
-			size_t			_size;
-			size_t			_capacity;
-			T*				_array;
-			allocator_type	_alloc;
+			size_t					_size;
+			size_t					_capacity;
+			value_type*				_array;
+			allocator_type			_alloc;
 
 		public:
 	/*
 		=========================== Member functions ===========================
 	*/
-		explicit vector< T >(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _array(NULL), _alloc(alloc) {};
+		explicit vector< T >(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _array(NULL), _alloc(alloc) {
+			// _array = new value_type[0];
+			_array = _alloc.allocate(0);
+			// value_type_alloc.construct(_array);
+		};
 
-		explicit vector< T >(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _array(new T[n]), _alloc(alloc) {
+		explicit vector< T >(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc) {
+			// _array = new value_type[n];
+			_array = _alloc.allocate(n);
+			// _alloc.construct(&_array[0], val);
+
 			for (size_type i = 0; i < n; i++)
 			{
+				_alloc.construct(&_array[i], val);
 				_array[i] = val;
 			}
 		};
 
-		// vector< T >( vector const &x ) : _size(x.size()), _capacity(x.size()), _array(new T[_capacity]) , _alloc(x._alloc) {
-		// 	for (size_t i = 0; i < x.size(); i++) {
-		// 		_array[i] = x._array[i];
-		// 	}
-		// };
-		vector< T >( vector const &x ) : _array(NULL), _size(0), _capacity(0), _alloc() {
+		vector< T >( vector const &x ) : _size(0), _capacity(0), _array(NULL), _alloc() {
 			*this = x;
 		};
 
 		~vector< T >() {
-			delete [] _array;
+			// delete [] _array;
+			this->clear();
+			_alloc.deallocate(_array, _capacity);
 		};
 
 		template <class InputIterator>
@@ -70,7 +77,6 @@ namespace ft {
 			: _size(0), _capacity(0), _array(NULL), _alloc(alloc)
 		{
 			assign(first, last);
-			// alloc = 0; // to remove
 		}
 
 		vector &		operator=( vector const & x ) {
@@ -126,14 +132,18 @@ namespace ft {
 			{
 				if (n > this->max_size())
 					throw std::length_error("vector::reserve");
-				T *newarray = new T[n];
+				// value_type *newarray = new value_type[n];
+				T *newarray = _alloc.allocate(n);
 				for (size_type i = 0; i < _size; i++)
 				{
-					newarray[i] = _array[i];
+					_alloc.construct(&newarray[i], _array[i]);
+					_alloc.destroy(&_array[i]);
+					// newarray[i] = _array[i];
 				}
 				// newarray[_size] = val;
 				// ++_size;
-				delete[] _array;
+				// delete[] _array;
+				_alloc.deallocate(_array, _capacity);
 				_array = newarray;
 				_capacity = n; // size of the realloc, change it mb ?
 			}
@@ -254,8 +264,8 @@ namespace ft {
 		};
 
 		iterator erase(iterator first, iterator last) {
-			size_type	delta = last - first;
 			size_type	offset = first - this->begin();
+			size_type	delta = last - first;
 
 			for (size_type i = 0; i < _size - delta - offset; i++)
 			{
@@ -269,12 +279,12 @@ namespace ft {
 		template <class InputIterator>
 		void assign(typename ft::enable_if<ft::is_input_iterator<InputIterator>::value, InputIterator>::type first, InputIterator last)
 		{
-			this->clear();
+			this->erase(this->begin(), this->end());
 			this->insert(this->begin(), first, last);
 		};
 
 		void assign (size_type n, const value_type& val) {
-			this->clear();
+			this->erase(this->begin(), this->end());
 			this->reserve(n);
 			this->insert(this->begin(), n, val);
 		};
@@ -295,7 +305,10 @@ namespace ft {
 		};
 
 		void	clear() {
-			erase(this->begin(), this->end());
+			// erase(this->begin(), this->end());
+			for (iterator it = begin(); it != end(); it++)
+				_alloc.destroy(&*it);
+			this->_size = 0;
 		};
 
 	/*

@@ -6,14 +6,14 @@
 #    By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 13:40:37 by ladawi            #+#    #+#              #
-#    Updated: 2022/07/09 14:38:25 by ladawi           ###   ########.fr        #
+#    Updated: 2022/07/13 17:09:08 by ladawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = a.out
 CC = c++
-# CFLAGS = -Wall -Wextra -Werror $(DEBUG)
-# DEBUG = -g3
+# CFLAGS = -Wall -Wextra -Werror 
+DEBUG = -g3
 
 
 FILES = main.cpp \
@@ -48,7 +48,7 @@ all : $(NAME)
 $(NAME) : $(OBJ_PATH) $(INC) $(OBJ)
 	@echo "$(YEL)Made $(NAME)$(END)"
 	@echo "$(PUR)Compiling$(END)"
-	@$(CC) $(CFLAGS) $(INC_FLAGS) $(OBJ) -o ${NAME}
+	@$(CC) $(CFLAGS) $(DEBUG) $(INC_FLAGS) $(OBJ) -o ${NAME}
 
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
