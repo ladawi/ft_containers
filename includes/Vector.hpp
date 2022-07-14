@@ -67,9 +67,9 @@ namespace ft {
 		};
 
 		~vector< T >() {
-			delete [] _array;
+			// delete [] _array;
 			this->clear();
-			// _alloc.deallocate(_array, _capacity);
+			_alloc.deallocate(_array, _capacity);
 		};
 
 		template <class InputIterator>
@@ -132,8 +132,8 @@ namespace ft {
 			{
 				if (n > this->max_size())
 					throw std::length_error("vector::reserve");
-				value_type	*newarray = new value_type[n];
-				// value_type	*newarray = _alloc.allocate(n + 1);
+				// value_type	*newarray = new value_type[n];
+				value_type	*newarray = _alloc.allocate(n);
 				// _alloc.construct(&newarray[0], _array[0]);
 				for (size_type i = 0; i < _size; i++)
 				{
@@ -143,7 +143,7 @@ namespace ft {
 				}
 				// newarray[_size] = val;
 				// delete[] _array;
-				_alloc.deallocate(_array, _size);
+				_alloc.deallocate(_array, size());
 				_array = newarray;
 
 				_capacity = n;
@@ -200,8 +200,8 @@ namespace ft {
 
 		void	pop_back()
 		{
-			if (_size > 0)
-				_size--;
+			if (_size > 0) {
+				_alloc.destroy(&_array[--_size]); }
 		}
 
 		iterator insert(iterator position, const value_type &val)
@@ -222,6 +222,9 @@ namespace ft {
 				else {
 					this->reserve(this->_size * 2 + !this->_capacity); };
 			}
+			for (size_type i = 0 ; i < n ; i++)
+				_alloc.construct(_array + _size + i, val);
+
 			position = this->begin();
 			for (size_type i = 0; i < delta; i++)
 				position++;
@@ -230,6 +233,7 @@ namespace ft {
 				*it = *ft::prev(it, n);
 			for (iterator it = position; it != position + n; ++it)
 				*it = val;
+			
 		}
 
 		template <class InputIterator>
@@ -249,6 +253,8 @@ namespace ft {
 				else
 					this->reserve(this->_size * 2 + !this->_capacity);
 			}
+			for (size_type i = 0 ; i < n ; i++)
+				_alloc.construct(_array + _size + i, *first);
 			position = this->begin();
 			for (size_type i = 0; i < delta; i++)
 				position++;
@@ -257,6 +263,8 @@ namespace ft {
 				*it = *ft::prev(it, n);
 			for (iterator it = position; it != position + n; ++it)
 				*it = *first++;
+			// for(iterator it = position + n; it != end(); it++)
+			// 	_alloc.destroy(&*it);
 		}
 
 
@@ -273,10 +281,10 @@ namespace ft {
 				*first = *ft::next(first, delta);
 				first++;
 			}
-			_size = _size - delta;
-			// while (delta--) {
-			// 	_alloc.deallocate(&_array[_size + delta], 1);
-			// }
+			// _size = _size - delta;
+			while (delta-- > 0) {
+				_alloc.destroy(&_array[--_size]);
+			}
 			return (this->begin() + offset);
 		};
 
@@ -295,23 +303,30 @@ namespace ft {
 
 		template <class vector>
 		void swap (vector& x) {
-			pointer		tmp_array = this->_array;
-			size_type	tmp_size = this->_size;
-			size_type	tmp_capacity = this->_capacity;
-
-			this->_array = x._array;
-			this->_size = x._size;
-			this->_capacity = x._capacity;
-
-			x._array = tmp_array;
-			x._size = tmp_size;
-			x._capacity = tmp_capacity;
+			ft::ftswap(_alloc, x._alloc);
+			ft::ftswap(_size, x._size);
+			ft::ftswap(_capacity, x._capacity);
+			ft::ftswap(_array, x._array);
 		};
+
+		// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
+		// 	pointer		tmp_array = this->_array;
+		// 	size_type	tmp_size = this->_size;
+		// 	size_type	tmp_capacity = this->_capacity;
+
+		// 	this->_array = x._array;
+		// 	this->_size = x._size;
+		// 	this->_capacity = x._capacity;
+
+		// 	x._array = tmp_array;
+		// 	x._size = tmp_size;
+		// 	x._capacity = tmp_capacity;
+		// };
 
 		void	clear() {
 			// erase(this->begin(), this->end());
-			// for (iterator it = begin(); it != end(); it++)
-			// 	_alloc.destroy(&*it);
+			for (iterator it = begin(); it != end(); it++)
+				_alloc.destroy(&*it);
 			this->_size = 0;
 		};
 
@@ -355,6 +370,11 @@ namespace ft {
 	/*
 		============================== End public ==============================
 	*/
+	};
+
+	template <class T, class Alloc>
+	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
+		x.swap(y);
 	};
 
 }

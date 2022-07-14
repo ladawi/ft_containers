@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 10:05:11 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/07 15:18:04 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/14 14:22:37 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ namespace ft {
 
 	template <class T> const T& max (const T& a, const T& b) {
 	return ((a < b) ? b : a);	// or: return comp(a,b)?b:a; for version (2)
+	}
+
+	template <class T> void ftswap ( T& a, T& b )
+	{
+		T c(a); a=b; b=c;
 	}
 }
 

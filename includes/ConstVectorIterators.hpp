@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:46:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/14 11:23:44 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/14 13:17:25 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ namespace ft
 		constVectorIterator(T* x) : RandomAccessIterator<T>(x) {};
 		constVectorIterator(const RandomAccessIterator<T> &src) : RandomAccessIterator<T>(src){};
 		~constVectorIterator() {};
+
+		constVectorIterator&	operator=(pointer_type ptr) { this->_ptr = ptr; return *this; }
 
 
 		constVectorIterator &operator+=(difference_type n);
