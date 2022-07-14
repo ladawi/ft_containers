@@ -22,11 +22,12 @@ namespace ft {
 		public:
 			typedef size_t										size_type;
 			typedef T											value_type;
-			typedef Alloc											allocator_type;
+			typedef Alloc										allocator_type;
 			typedef std::ptrdiff_t								difference_type;
 			typedef typename allocator_type::reference			reference;
 			typedef typename allocator_type::const_reference	const_reference;
 			typedef typename allocator_type::pointer			pointer;
+			typedef typename allocator_type::const_pointer		const_pointer;
 			typedef ft::vectorIterator<T>						iterator;
 			typedef ft::constVectorIterator<T>					const_iterator;
 			typedef ft::reverse_iterator<iterator>				reverse_iterator;
@@ -44,7 +45,7 @@ namespace ft {
 	/*
 		=========================== Member functions ===========================
 	*/
-		explicit vector< T >(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _array(NULL), _alloc(alloc) {
+		explicit vector< T >(const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc) {
 			// _array = new value_type[0];
 			_array = _alloc.allocate(0);
 			// value_type_alloc.construct(_array);
@@ -53,12 +54,11 @@ namespace ft {
 		explicit vector< T >(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc) {
 			// _array = new value_type[n];
 			_array = _alloc.allocate(n);
-			// _alloc.construct(&_array[0], val);
 
 			for (size_type i = 0; i < n; i++)
 			{
 				_alloc.construct(&_array[i], val);
-				_array[i] = val;
+				// _array[i] = val;
 			}
 		};
 
@@ -67,9 +67,9 @@ namespace ft {
 		};
 
 		~vector< T >() {
-			// delete [] _array;
+			delete [] _array;
 			this->clear();
-			_alloc.deallocate(_array, _capacity);
+			// _alloc.deallocate(_array, _capacity);
 		};
 
 		template <class InputIterator>
@@ -132,20 +132,21 @@ namespace ft {
 			{
 				if (n > this->max_size())
 					throw std::length_error("vector::reserve");
-				// value_type *newarray = new value_type[n];
-				T *newarray = _alloc.allocate(n);
+				value_type	*newarray = new value_type[n];
+				// value_type	*newarray = _alloc.allocate(n + 1);
+				// _alloc.construct(&newarray[0], _array[0]);
 				for (size_type i = 0; i < _size; i++)
 				{
 					_alloc.construct(&newarray[i], _array[i]);
-					_alloc.destroy(&_array[i]);
 					// newarray[i] = _array[i];
+					_alloc.destroy(_array + i);
 				}
 				// newarray[_size] = val;
-				// ++_size;
 				// delete[] _array;
-				_alloc.deallocate(_array, _capacity);
+				_alloc.deallocate(_array, _size);
 				_array = newarray;
-				_capacity = n; // size of the realloc, change it mb ?
+
+				_capacity = n;
 			}
 		}
 
@@ -273,6 +274,9 @@ namespace ft {
 				first++;
 			}
 			_size = _size - delta;
+			// while (delta--) {
+			// 	_alloc.deallocate(&_array[_size + delta], 1);
+			// }
 			return (this->begin() + offset);
 		};
 
@@ -306,8 +310,8 @@ namespace ft {
 
 		void	clear() {
 			// erase(this->begin(), this->end());
-			for (iterator it = begin(); it != end(); it++)
-				_alloc.destroy(&*it);
+			// for (iterator it = begin(); it != end(); it++)
+			// 	_alloc.destroy(&*it);
 			this->_size = 0;
 		};
 

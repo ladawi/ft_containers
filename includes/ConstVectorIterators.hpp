@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/14 19:46:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/09 15:41:23 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/14 11:23:44 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,22 @@ namespace ft
 			return (constVectorIterator(RandomAccessIterator<T>::operator-(n)));
 		};
 
-		constVectorIterator &operator++()
-		{
+		constVectorIterator &operator++() {
 			this->_ptr++;
 			return (*this);
 		}
 
-		constVectorIterator operator++(int)
-		{
+		constVectorIterator operator++(int) {
 			constVectorIterator iterator = *this;
 			++(*this);
 			return (iterator);
 		}
 		
-		constVectorIterator &operator--()
-		{
+		constVectorIterator &operator--() {
 			this->_ptr--;
 			return (*this);
 		}
-		constVectorIterator operator--(int)
-		{
+		constVectorIterator operator--(int) {
 			constVectorIterator iterator = *this;
 			--(*this);
 			return (iterator);
@@ -78,8 +74,7 @@ namespace ft
 				return rhs.operator+(n);
 		};
 
-		pointer_type operator->(void)
-		{
+		pointer_type operator->(void) {
 			return (this->_ptr);
 		}
 		reference_type	operator*(void) {

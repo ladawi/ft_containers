@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 15:03:37 by ladawi            #+#    #+#             */
-/*   Updated: 2022/06/25 11:21:00 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/14 11:20:18 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ namespace ft {
 		{
 			return (*this->_ptr);
 		}
+
+		friend bool 	operator== (const vectorIterator& lhs, const vectorIterator& rhs) { return lhs._ptr == rhs._ptr; }
 
 	};
 

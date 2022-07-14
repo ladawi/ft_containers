@@ -6,16 +6,15 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/13 17:03:14 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/14 11:37:13 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <vector>
 #include <iostream>
 #include <stdexcept>
-#include "Vector.hpp"
-#include "map.hpp"
-#include "stack.hpp"
+#include "VectorTest.hpp"
+// #include "map.hpp"
+// #include "stack.hpp"
 #include "Pair.hpp"
 #include "node.hpp"
 #include <map>
