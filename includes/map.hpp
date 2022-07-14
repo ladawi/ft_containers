@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:11:05 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/11 16:59:25 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/14 15:34:15 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ namespace ft {
 
 		~map() {
 			// std::cout << "Destructor map called." << std::endl;
+			clear();
 			delete _head;
 		};
 		
@@ -171,11 +172,19 @@ namespace ft {
 			return (_ghost);
 		}
 
-		iterator	rbegin() {
+		reverse_iterator	rbegin() {
 			return (end());
 		}
 
-		iterator	rend() {
+		const_reverse_iterator rbegin() const {
+			return (end());
+		};
+
+		reverse_iterator	rend() {
+			return (begin());
+		}
+
+		const_reverse_iterator	rend() const {
 			return (begin());
 		}
 
@@ -183,7 +192,7 @@ namespace ft {
 		=============================== Capacity ===============================
 	*/
 		bool empty() const {
-			return(_head == _ghost ? 1 : 0);
+			return(!size());
 		};
 
 		size_type	size() const { return (_getsize(_head)); };
@@ -686,8 +695,14 @@ namespace ft {
 			return node;
 		}
 
+
 };
 
+		template< class Key, class T, class Compare, class Alloc >
+		void swap( ft::map<Key,T,Compare,Alloc>& lhs,
+				ft::map<Key,T,Compare,Alloc>& rhs ) {
+			lhs.swap(rhs);
+		};
 
 
 }
