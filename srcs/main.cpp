@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/30 13:42:25 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/27 17:43:53 by ladawi           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <iostream>
 #include <stdexcept>
 #include "vector.hpp"
@@ -21,15 +9,33 @@
 #include <list>
 #include <vector>
 
-	bool fncomp (char lhs, char rhs) {return lhs<rhs;}
+bool fncomp (char lhs, char rhs) {return lhs<rhs;}
 
-	struct classcomp {
-	bool operator() (const char& lhs, const char& rhs) const
-	{return lhs<rhs;}
-	};
+struct classcomp {
+bool operator() (const char& lhs, const char& rhs) const
+{return lhs<rhs;}
+};
+
+namespace ft {
+	std::string name() { return (std::string("FT")); }
+}
+
+namespace std {
+	std::string name() { return (std::string("STD")); }
+}
+
+#define NAMESPACE ft;
+
+using namespace NAMESPACE;
 
 int main ()
 {
+	std::cout << std::endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << "           using namespace : " << name() << std::endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << std::endl;
+
 	std::cout << std::endl;
 	std::cout << "========================================" << std::endl;
 	std::cout << "               VECTOR TEST              " << std::endl;
