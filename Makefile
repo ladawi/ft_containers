@@ -6,11 +6,11 @@
 #    By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 13:40:37 by ladawi            #+#    #+#              #
-#    Updated: 2022/07/27 17:43:16 by ladawi           ###   ########.fr        #
+#    Updated: 2022/07/27 18:53:46 by ladawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = a.out
+NAME = test
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 DEBUG = -g3
@@ -58,9 +58,6 @@ $(OBJ_PATH):
 $(OBJ_PATH)/%.o : %.cpp $(INCLUDES)
 	@$(CC) $(CFLAGS) $(HEAD) -c -o $@ $(INC_FLAGS) $<
 	@echo "$(GRE)$@$(END)"
-
-print:
-	@echo $(OBJ)
 
 clean:
 	@rm -rf $(OBJ)
