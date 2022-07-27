@@ -6,18 +6,18 @@
 #    By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/30 13:40:37 by ladawi            #+#    #+#              #
-#    Updated: 2022/07/13 17:09:08 by ladawi           ###   ########.fr        #
+#    Updated: 2022/07/27 17:43:16 by ladawi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = a.out
 CC = c++
-# CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 DEBUG = -g3
 
 
 FILES = main.cpp \
-		Vector.cpp \
+
 
 
 SRC_PATH = $(shell find srcs -type d)
@@ -26,9 +26,11 @@ vpath %.cpp $(foreach dir, $(SRC_PATH), $(dir))
 OBJ_PATH = objs
 OBJ = $(addprefix $(OBJ_PATH)/, $(FILES:%.cpp=%.o))
 
-INC_F = Vector.hpp VectorIterators.hpp RandomAccessIterator.hpp ConstVectorIterators.hpp Ft_iterators.hpp ft_utils.hpp \
-	stack.hpp map.hpp node.hpp MapIterator.hpp CoreMapIterator.hpp ConstMapIterator.hpp
+INC_F = VectorIterators.hpp RandomAccessIterator.hpp ConstVectorIterators.hpp Ft_iterators.hpp ft_utils.hpp \
+	stack.hpp map.hpp node.hpp MapIterator.hpp CoreMapIterator.hpp ConstMapIterator.hpp vector.hpp
+	
 INC_DIR = includes
+
 INC = $(addprefix $(INC_DIR)/, $(INC_F))
 INCLUDES = $(INC)
 

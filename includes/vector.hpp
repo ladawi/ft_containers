@@ -66,8 +66,7 @@ namespace ft {
 			*this = x;
 		};
 
-		~vector< T >() {
-			// delete [] _array;
+		~vector() {
 			this->clear();
 			_alloc.deallocate(_array, _capacity);
 		};
@@ -89,17 +88,16 @@ namespace ft {
 		=============================== Iterator ===============================
 	*/
 
-		iterator	begin() { return (_array); }
 
+		iterator	begin() { return (_array); }
 		iterator	end() { return (_array + _size); }
+		reverse_iterator	rbegin() { return (end()); }
+		reverse_iterator	rend() { return (begin()); }
 
 		const_iterator	begin() const { return (_array); }
-
 		const_iterator	end() const { return (_array + _size); }
-
-		reverse_iterator	rbegin() { return (end()); }
-
-		reverse_iterator	rend() { return (begin()); }
+		const_reverse_iterator	rbegin() const { return (end()); }
+		const_reverse_iterator	rend() const { return (begin()); }
 
 	/*
 		=============================== Capacity ===============================
@@ -309,25 +307,17 @@ namespace ft {
 			ft::ftswap(_array, x._array);
 		};
 
-		// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
-		// 	pointer		tmp_array = this->_array;
-		// 	size_type	tmp_size = this->_size;
-		// 	size_type	tmp_capacity = this->_capacity;
-
-		// 	this->_array = x._array;
-		// 	this->_size = x._size;
-		// 	this->_capacity = x._capacity;
-
-		// 	x._array = tmp_array;
-		// 	x._size = tmp_size;
-		// 	x._capacity = tmp_capacity;
-		// };
-
 		void	clear() {
 			// erase(this->begin(), this->end());
 			for (iterator it = begin(); it != end(); it++)
 				_alloc.destroy(&*it);
 			this->_size = 0;
+		};
+	/*
+		=============================== Allocator ===============================
+	*/
+		allocator_type	get_allocator() const {
+			return (_alloc);
 		};
 
 	/*

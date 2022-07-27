@@ -6,7 +6,7 @@
 /*   By: ladawi <ladawi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 14:11:05 by ladawi            #+#    #+#             */
-/*   Updated: 2022/07/14 15:34:15 by ladawi           ###   ########.fr       */
+/*   Updated: 2022/07/27 17:41:22 by ladawi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "sfinae_template.hpp"
 # include "RevIterator.hpp"
 # include "Pair.hpp"
-# include "Vector.hpp"
+# include "vector.hpp"
 # include "stdexcept"
 # include "ft_utils.hpp"
 # include "node.hpp"
@@ -202,64 +202,10 @@ namespace ft {
 		============================ Element access ============================
 	*/
 
-	/*
-		============================== Print Tree ==============================
-	*/
-		struct Trunk
-		{
-			Trunk *prev;
-			std::string str;
-
-			Trunk(Trunk *prev, std::string str)
-			{
-				this->prev = prev;
-				this->str = str;
-			}
+		mapped_type& operator[] (const key_type& k) {
+			return ((*((this->insert(ft::make_pair(k, mapped_type()))).first)).second);
 		};
 
-		// Helper function to print branches of the binary tree
-		void showTrunks(Trunk *p)
-		{
-			if (p == NULL) {
-				return;
-			}
-
-			showTrunks(p->prev);
-			std::cout << p->str;
-		}
-
-		void printTree(node_pointer root, Trunk *prev, bool isLeft)
-		{
-			if (root == NULL || root == _ghost) {
-				return;
-			}
-
-			std::string prev_str = "    ";
-			Trunk *trunk = new Trunk(prev, prev_str);
-			printTree(root->right, trunk, true);
-
-			if (!prev) {
-				trunk->str = "———";
-			}
-			else if (isLeft)
-			{
-				trunk->str = ".———";
-				prev_str = "   |";
-			}
-			else {
-				trunk->str = "`———";
-				prev->str = prev_str;
-			}
-
-			showTrunks(trunk);
-			std::cout << " " << root->value.first << "\n";//<< root->height << endl;
-
-			if (prev) {
-				prev->str = prev_str;
-			}
-			trunk->str = "   |";
-			printTree(root->left, trunk, false);
-		}
 	/*
 		=============================== Modifiers ==============================
 	*/
@@ -352,9 +298,6 @@ namespace ft {
 	/*
 		=============================== Overload ===============================
 	*/
-		mapped_type& operator[] (const key_type& k) {
-			return ((*((this->insert(ft::make_pair(k, mapped_type()))).first)).second);
-		};
 
 		bool operator==( const map& rhs ) const {
 			const_iterator ite = rhs.begin();
@@ -447,40 +390,26 @@ namespace ft {
 		};
 
 		iterator find (const key_type& k) {
-			iterator it = begin();
-
-			while (it != end()) {
-				if (!_key_comp((*it).first, k) && !_key_comp(k, (*it).first))
-					return (it);
-				it++;
-			}
-			return (it);
+			return (_find(_head, k));
 		};
 
 		const_iterator find (const key_type& k) const {
-			const_iterator it = begin();
-
-			while (it != end()) {
-				if (!_key_comp((*it).first, k) && !_key_comp(k, (*it).first))
-					return (it);
-				it++;
-			}
-			return (it);
+			return (_find(_head, k));
 		};
 
 		size_type count (const key_type& k) const {
-			const_iterator it = begin();
-			size_type	count = 0;
+			const_iterator cit;
 
-			while (it != end()) {
-				if (!_key_comp((*it).first, k) && !_key_comp(k, (*it).first))
-					count++;
-				it++;
-			}
-			return (count);
+			cit = find(k);
+			return(cit != end());
 		};
 
-
+	/*
+		=============================== Allocator ===============================
+	*/
+		allocator_type	get_allocator() const {
+			return (_alloc);
+		};
 	/*
 		============================ Private method ============================
 	*/
@@ -648,6 +577,16 @@ namespace ft {
 			while (node->right)
 				node = node->right;
 			return (node);
+		}
+
+		iterator	_find(node_pointer node, const key_type& k) const {
+			if (!node || node == _ghost)
+				return _ghost;
+			if (!_key_comp(k, node->value.first) && !_key_comp(node->value.first, k))
+				return (node);
+			if (_key_comp(k, node->value.first))
+				return (_find(node->left, k));
+			return (_find(node->right, k));
 		}
 
 		node_pointer	_erase(node_pointer	node, const key_type& val) {
